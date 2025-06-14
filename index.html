@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tienda Morada</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1f0035, #7e22ce);
+      color: white;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 0;
+    }
+
+    header h1 {
+      font-size: 3em;
+      background: linear-gradient(to right, #c084fc, #9333ea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      font-size: 1.2em;
+      color: #e0caff;
+    }
+
+    .products {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .product {
+      background: linear-gradient(145deg, #2d004d, #4c1d95);
+      border-radius: 25px;
+      padding: 25px;
+      width: 320px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+      transition: transform 0.4s ease, box-shadow 0.3s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .product img {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+
+    .product h2 {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+      color: #e9d5ff;
+    }
+
+    .price {
+      font-size: 1.4em;
+      margin: 10px 0;
+      color: #facc15;
+    }
+
+    .old-price {
+      font-size: 0.9em;
+      text-decoration: line-through;
+      color: #a78bfa;
+    }
+
+    .badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #9333ea;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 12px;
+      font-size: 0.8em;
+    }
+
+    label, select {
+      display: block;
+      margin: 10px 0 5px;
+      font-size: 0.95em;
+    }
+
+    select, input[type=number] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: #a855f7;
+      color: white;
+      margin-bottom: 10px;
+      font-size: 1em;
+    }
+
+    button.add-btn {
+      background: linear-gradient(to right, #a855f7, #9333ea);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1em;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      width: 100%;
+      margin-top: auto;
+    }
+
+    button.add-btn:hover {
+      background: linear-gradient(to right, #9333ea, #a855f7);
+    }
+
+    /* Carrito */
+
+    #cart {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      width: 350px;
+      max-height: 80vh;
+      background: #4c1d95;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+      overflow-y: auto;
+      color: white;
+      display: none;
+      z-index: 999;
+    }
+
+    #cart h3 {
+      margin-bottom: 15px;
+      text-align: center;
+      font-size: 1.6em;
+      color: #facc15;
+    }
+
+    .cart-item {
+      margin-bottom: 12px;
+      border-bottom: 1px solid #9333ea;
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-item img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .cart-item-text {
+      flex-grow: 1;
+      font-size: 1em;
+      color: #e9d5ff;
+    }
+
+    #cart-total {
+      font-weight: 700;
+      font-size: 1.3em;
+      margin-top: 10px;
+      text-align: right;
+      color: #facc15;
+    }
+
+    #envio-label {
+      margin-top: 15px;
+      font-weight: 600;
+    }
+
+    #envioTotal {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: #a855f7;
+      color: white;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      font-size: 1em;
+    }
+
+    /* Botón carrito redondo con contador */
+    .cart-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: #9333ea;
+      border: none;
+      color: white;
+      width: 50px;
+      height: 50px;
+      font-size: 1.4em;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      background: #ff0000;
+      color: white;
+      font-weight: bold;
+      font-size: 0.65em;
+      padding: 1px 5px;
+      border-radius: 50%;
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+      min-width: 16px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Tienda Online</h1>
+    <p>Billeteras de Hombre</p>
+  </header>
+
+  <section class="products">
+    <div class="product" data-img="https://img.ltwebstatic.com/images3_spmp/2023/08/22/36/169271088231bfcdf82806be45938262b9159123a0_thumbnail_720x.jpg">
+      <span class="badge">Popular</span>
+      <img src="https://img.ltwebstatic.com/images3_spmp/2023/08/22/36/169271088231bfcdf82806be45938262b9159123a0_thumbnail_720x.jpg" alt="Cartera de Hombre" />
+      <h2>Cartera de Hombre</h2>
+      <p class="old-price">Antes: $5.00</p>
+      <p class="price" id="price1">4.75 <span id="discount1"></span></p>
+      <p>Stock: <span id="stock1">12</span></p>
+      <label for="qty1">Cantidad:</label>
+      <input id="qty1" type="number" min="1" max="12" value="1" />
+      <button class="add-btn" onclick="addToCart('Cartera de Hombre', 4.75, 'qty1', 'stock1', this)">Agregar al carrito</button>
+    </div>
+
+    <div class="product" data-img="https://img.ltwebstatic.com/images3_spmp/2023/11/29/d5/1701248613da37108e4da7531a98581bb09ae55015_thumbnail_720x.jpg">
+      <span class="badge">Nuevo</span>
+      <img src="https://img.ltwebstatic.com/images3_spmp/2023/11/29/d5/1701248613da37108e4da7531a98581bb09ae55015_thumbnail_720x.jpg" alt="Cartera de Hombre" />
+      <h2>Cartera de Hombre</h2>
+      <p class="old-price">Antes: $5.50</p>
+      <p class="price" id="price2">4.75 <span id="discount2"></span></p>
+      <p>Stock: <span id="stock2">2</span></p>
+      <label for="qty2">Cantidad:</label>
+      <input id="qty2" type="number" min="1" max="2" value="1" />
+      <button class="add-btn" onclick="addToCart('Cartera de Hombre', 4.75, 'qty2', 'stock2', this)">Agregar al carrito</button>
+    </div>
+  </section>
+
+  <!-- Botón carrito -->
+  <button class="cart-toggle" onclick="toggleCart()">
+    🛒
+    <span class="cart-count" id="cart-count">0</span>
+  </button>
+
+  <!-- Carrito -->
+  <div id="cart">
+    <h3>Tu carrito</h3>
+    <div id="cart-items"></div>
+
+    <label id="envio-label" for="envioTotal">Costo de envío:</label>
+    <select id="envioTotal" onchange="updateTotal()">
+      <option value="0">No envío (Retiro en tienda) - $0</option>
+      <option value="1">Envío (+$1.00)</option>
+    </select>
+
+    <p id="cart-total">Total: $0.00</p>
+
+    <form id="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" onsubmit="return validateCart()">
+      <input type="hidden" name="cmd" value="_xclick" />
+      <input type="hidden" name="business" value="trotoliso@gmail.com" />
+      <input type="hidden" name="currency_code" value="USD" />
+      <input type="hidden" id="item_name" name="item_name" value="" />
+      <input type="hidden" id="amount" name="amount" value="0" />
+      <input type="submit" value="Pagar con PayPal" style="
+        background: #9333ea;
+        border: none;
+        padding: 12px 20px;
+        color: white;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1.1em;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 15px;
+      " />
+    </form>
+  </div>
+
+  <script>
+    let cartItems = [];
+
+    function addToCart(name, price, qtyInputId, stockId, btn) {
+      const qtyInput = document.getElementById(qtyInputId);
+      const stockEl = document.getElementById(stockId);
+      let qty = parseInt(qtyInput.value);
+      const stock = parseInt(stockEl.textContent);
+
+      if (isNaN(qty) || qty < 1) {
+        alert("Cantidad inválida");
+        return;
+      }
+
+      if (qty > stock) {
+        alert("No hay suficiente stock");
+        return;
+      }
+
+      const existingItem = cartItems.find(item => item.name === name);
+
+      if (existingItem) {
+        if (existingItem.qty + qty > stock) {
+          alert("No hay suficiente stock para agregar más");
+          return;
+        }
+        existingItem.qty += qty;
+      } else {
+        const productDiv = btn.closest('.product');
+        const imgSrc = productDiv.getAttribute('data-img') || '';
+        cartItems.push({ name, price, qty, img: imgSrc });
+      }
+
+      updateCart();
+      updateCartCount();
+    }
+
+    function updateCart() {
+      const cartItemsContainer = document.getElementById("cart-items");
+      cartItemsContainer.innerHTML = "";
+
+      cartItems.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.classList.add("cart-item");
+        div.innerHTML = `
+          <img src="${item.img}" alt="${item.name}" />
+          <div class="cart-item-text">${item.name} x${item.qty} - $${(item.price * item.qty).toFixed(2)}</div>
+          <button onclick="removeFromCart(${index})" title="Eliminar" style="
+            background: transparent;
+            border: none;
+            color: #ff6b6b;
+            font-weight: bold;
+            font-size: 1.2em;
+            cursor: pointer;
+            flex-shrink: 0;
+          ">×</button>
+        `;
+        cartItemsContainer.appendChild(div);
+      });
+
+      updateTotal();
+    }
+
+    function removeFromCart(index) {
+      cartItems.splice(index, 1);
+      updateCart();
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      const countEl = document.getElementById("cart-count");
+      const totalQty = cartItems.reduce((sum, item) => sum + item.qty, 0);
+      countEl.textContent = totalQty;
+      countEl.style.display = totalQty > 0 ? "inline-block" : "none";
+    }
+
+    function updateTotal() {
+      const envioSelect = document.getElementById("envioTotal");
+      const envioCost = parseFloat(envioSelect.value) || 0;
+
+      let subtotal = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
+      let total = subtotal + envioCost;
+
+      document.getElementById("cart-total").textContent = `Total: $${total.toFixed(2)}`;
+
+      const itemNames = cartItems.map(item => `${item.name} x${item.qty}`).join(', ');
+      document.getElementById("item_name").value = itemNames;
+      document.getElementById("amount").value = total.toFixed(2);
+    }
+
+    function toggleCart() {
+      const cart = document.getElementById("cart");
+      cart.style.display = cart.style.display === "block" ? "none" : "block";
+    }
+
+    function validateCart() {
+      if (cartItems.length === 0) {
+        alert("El carrito está vacío");
+        return false;
+      }
+      return true;
+    }
+
+    // Función para mostrar porcentaje de descuento pequeño junto al precio
+    function showDiscountPercent(priceId, oldPriceSelector, discountId) {
+      const priceEl = document.getElementById(priceId);
+      const oldPriceEl = document.querySelector(oldPriceSelector);
+      const discountEl = document.getElementById(discountId);
+
+      if (!priceEl || !oldPriceEl || !discountEl) return;
+
+      // Obtener precios sin símbolos y con punto decimal
+      const oldPriceText = oldPriceEl.textContent.replace(/[^\d.,]/g, '').replace(',', '.');
+      const priceText = priceEl.textContent.replace(/[^\d.,]/g, '').replace(',', '.');
+
+      const oldPrice = parseFloat(oldPriceText);
+      const price = parseFloat(priceText);
+
+      if (!isNaN(oldPrice) && !isNaN(price) && oldPrice > price) {
+        const discountPercent = ((oldPrice - price) / oldPrice) * 100;
+        discountEl.textContent = `(${discountPercent.toFixed(1)}%)`;
+
+        // Estilos pequeños para el porcentaje
+        discountEl.style.color = "#f87171";
+        discountEl.style.marginLeft = "6px";
+        discountEl.style.fontWeight = "600";
+        discountEl.style.fontSize = "0.65em";
+        discountEl.style.verticalAlign = "middle";
+      }
+    }
+
+    // Ejecutar para los productos (cambiar selectores si agregas más productos)
+    showDiscountPercent("price1", ".product:nth-child(1) .old-price", "discount1");
+    showDiscountPercent("price2", ".product:nth-child(2) .old-price", "discount2");
+
+    // Inicializar contador oculto si carrito vacío
+    updateCartCount();
+  </script>
+</body>
+</html>
