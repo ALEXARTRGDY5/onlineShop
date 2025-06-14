@@ -251,39 +251,132 @@
       text-align: center;
       box-sizing: border-box;
     }
+.price {
+  margin: 10px 0;
+  color: #facc15;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.price .old-price {
+  font-size: 0.9em;
+  text-decoration: line-through;
+  color: #a78bfa;
+}
+
+.price .current-price-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.price .current-price {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.price .discount {
+  font-size: 0.65em; /* o el tamaño que prefieras */
+  color: #f87171;
+  font-weight: 600;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
+
+
   </style>
 </head>
 <body>
+  
   <header>
     <h1>Tienda Online</h1>
     <p>Billeteras de Hombre</p>
   </header>
 
-  <section class="products">
-    <div class="product" data-img="https://img.ltwebstatic.com/images3_spmp/2023/08/22/36/169271088231bfcdf82806be45938262b9159123a0_thumbnail_720x.jpg">
-      <span class="badge">Popular</span>
-      <img src="https://img.ltwebstatic.com/images3_spmp/2023/08/22/36/169271088231bfcdf82806be45938262b9159123a0_thumbnail_720x.jpg" alt="Cartera de Hombre" />
-      <h2>Cartera de Hombre</h2>
-      <p class="old-price">Antes: $5.00</p>
-      <p class="price" id="price1">4.75 <span id="discount1"></span></p>
-      <p>Stock: <span id="stock1">12</span></p>
-      <label for="qty1">Cantidad:</label>
-      <input id="qty1" type="number" min="1" max="12" value="1" />
-      <button class="add-btn" onclick="addToCart('p1', 'Cartera de Hombre', 4.75, 'qty1', 'stock1', this)">Agregar al carrito</button>
-    </div>
+ <div id="father-day-discount" style="
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  color: #1f2937;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 15px 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+">
+  🎁 ¡Descuento especial del Día del Padre! — Termina en <span id="father-day-timer" style="color: #dc2626;"></span>
+  <script>
+    (function () {
+      const countdownSpan = document.getElementById("father-day-timer");
+      const endTime = new Date();
+      endTime.setHours(23, 59, 59, 999); // Hoy a las 23:59:59
 
-    <div class="product" data-img="https://img.ltwebstatic.com/images3_spmp/2023/11/29/d5/1701248613da37108e4da7531a98581bb09ae55015_thumbnail_720x.jpg">
-      <span class="badge">Nuevo</span>
-      <img src="https://img.ltwebstatic.com/images3_spmp/2023/11/29/d5/1701248613da37108e4da7531a98581bb09ae55015_thumbnail_720x.jpg" alt="Cartera de Hombre" />
-      <h2>Cartera de Hombre</h2>
-      <p class="old-price">Antes: $5.50</p>
-      <p class="price" id="price2">4.75 <span id="discount2"></span></p>
-      <p>Stock: <span id="stock2">2</span></p>
-      <label for="qty2">Cantidad:</label>
-      <input id="qty2" type="number" min="1" max="2" value="1" />
-      <button class="add-btn" onclick="addToCart('p2', 'Cartera de Hombre', 4.75, 'qty2', 'stock2', this)">Agregar al carrito</button>
-    </div>
-  </section>
+      function updateCountdown() {
+        const now = new Date();
+        const timeDiff = endTime - now;
+
+        if (timeDiff <= 0) {
+          countdownSpan.textContent = "¡La oferta terminó!";
+          return;
+        }
+
+        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+        countdownSpan.textContent = `${hours}h ${minutes}m ${seconds}s`;
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    })();
+  </script>
+</div>
+
+
+
+
+<!-- Arriba de todos los productos -->
+<div id="discount"></div>
+
+  <div class="product" data-img="https://img.ltwebstatic.com/images3_spmp/2023/08/22/36/169271088231bfcdf82806be45938262b9159123a0_thumbnail_720x.jpg">
+  <span class="badge">Popular</span>
+  <img src="https://img.ltwebstatic.com/images3_spmp/2023/08/22/36/169271088231bfcdf82806be45938262b9159123a0_thumbnail_720x.jpg" alt="Cartera de Hombre" />
+  <h2>Cartera de Hombre</h2>
+  <div class="price">
+    <span class="old-price">$5.00</span>
+    <div class="current-price-wrapper">
+  <span class="current-price" id="price1">$4.75</span>
+  <span class="discount" id="discount1">(-5%)</span>
+</div>
+
+  </div>
+  <p>Stock: <span id="stock1">12</span></p>
+  <label for="qty1">Cantidad:</label>
+  <input id="qty1" type="number" min="1" max="12" value="1" />
+  <button class="add-btn" onclick="addToCart('p1', 'Cartera de Hombre', 4.75, 'qty1', 'stock1', this)">Agregar al carrito</button>
+</div>
+
+<div class="product" data-img="https://img.ltwebstatic.com/images3_spmp/2023/11/29/d5/1701248613da37108e4da7531a98581bb09ae55015_thumbnail_720x.jpg">
+  <span class="badge">Nuevo</span>
+  <img src="https://img.ltwebstatic.com/images3_spmp/2023/11/29/d5/1701248613da37108e4da7531a98581bb09ae55015_thumbnail_720x.jpg" alt="Cartera de Hombre" />
+  <h2>Cartera de Hombre</h2>
+  <div class="price">
+    <span class="old-price">$5.50</span>
+    <div class="current-price-wrapper">
+  <span class="current-price" id="price2">$4.75</span>
+  <span class="discount" id="discount2">(-13.6%)</span>
+</div>
+
+  </div>
+  <p>Stock: <span id="stock2">2</span></p>
+  <label for="qty2">Cantidad:</label>
+  <input id="qty2" type="number" min="1" max="2" value="1" />
+  <button class="add-btn" onclick="addToCart('p2', 'Cartera de Hombre', 4.75, 'qty2', 'stock2', this)">Agregar al carrito</button>
+</div>
+
 
   <!-- Botón carrito -->
   <button class="cart-toggle" onclick="toggleCart()">
@@ -324,188 +417,462 @@
       " />
     </form>
   </div>
+  
 
-  <script>
-    let cartItems = [];
+ <script>
+  let cartItems = [];
+
+  // Cargar carrito guardado en localStorage al inicio
+  window.onload = function() {
+    const savedCart = localStorage.getItem('cartItems');
+    if (savedCart) {
+      cartItems = JSON.parse(savedCart);
+      // Actualizar stock y UI según lo guardado
+      cartItems.forEach(item => {
+        const index = getIndexFromId(item.id);
+        const stockEl = document.getElementById(`stock${index}`);
+        const qtyInput = document.getElementById(`qty${index}`);
+        const btn = document.querySelector(`button.add-btn[onclick*="'${item.id}'"]`);
+
+        if (stockEl && qtyInput && btn) {
+          if (!stockEl.getAttribute("data-initial-stock")) {
+            stockEl.setAttribute("data-initial-stock", stockEl.textContent);
+          }
+          const initialStockRaw = stockEl.getAttribute("data-initial-stock");
+          const initialStock = isNaN(parseInt(initialStockRaw)) ? 0 : parseInt(initialStockRaw);
+
+          const newStock = initialStock - item.qty;
+          stockEl.textContent = newStock >= 0 ? newStock : 0;
+
+          qtyInput.max = newStock >= 0 ? newStock : 0;
+          if (newStock <= 0) {
+            qtyInput.value = 0;
+            qtyInput.disabled = true;
+            btn.disabled = true;
+            btn.textContent = "Sin stock";
+            btn.style.background = "#6b7280";
+            btn.style.cursor = "not-allowed";
+          } else {
+            qtyInput.disabled = false;
+            btn.disabled = false;
+            btn.textContent = "Agregar al carrito";
+            btn.style.background = "";
+            btn.style.cursor = "pointer";
+          }
+        }
+      });
+      updateCart();
+      updateCartCount();
+    }
+  };
+
+  function saveCart() {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }
 
   function addToCart(id, name, price, qtyInputId, stockId, btn) {
-  const qtyInput = document.getElementById(qtyInputId);
-  const stockEl = document.getElementById(stockId);
-  let requestedQty = parseInt(qtyInput.value);
-  let initialStock = parseInt(stockEl.getAttribute("data-initial-stock"));
+    const qtyInput = document.getElementById(qtyInputId);
+    const stockEl = document.getElementById(stockId);
 
-  if (!initialStock) {
-    // Guardar el stock original en un atributo solo una vez
-    initialStock = parseInt(stockEl.textContent);
-    stockEl.setAttribute("data-initial-stock", initialStock);
-  }
-
-  const existingItem = cartItems.find(item => item.id === id);
-  const alreadyInCart = existingItem ? existingItem.qty : 0;
-  const availableStock = initialStock - alreadyInCart;
-
-  if (isNaN(requestedQty) || requestedQty < 1) {
-    alert("Cantidad inválida");
-    return;
-  }
-
-  if (requestedQty > availableStock) {
-    alert("No hay suficiente stock");
-    return;
-  }
-
-  if (existingItem) {
-    existingItem.qty += requestedQty;
-  } else {
-    const productDiv = btn.closest('.product');
-    const imgSrc = productDiv.getAttribute('data-img') || '';
-    cartItems.push({ id, name, price, qty: requestedQty, img: imgSrc });
-  }
-
-  // Actualizar el stock visible
-  const newStock = initialStock - (existingItem ? existingItem.qty : requestedQty);
-  stockEl.textContent = newStock;
-  qtyInput.max = newStock;
-
-  if (newStock === 0) {
-    qtyInput.value = 0;
-    qtyInput.disabled = true;
-    btn.disabled = true;
-    btn.textContent = "Sin stock";
-    btn.style.background = "#6b7280";
-    btn.style.cursor = "not-allowed";
-  }
-
-  updateCart();
-  updateCartCount();
-}
-
-
-
-
-
-    function updateCart() {
-      const cartItemsContainer = document.getElementById("cart-items");
-      cartItemsContainer.innerHTML = "";
-
-      cartItems.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.classList.add("cart-item");
-        div.innerHTML = `
-          <img src="${item.img}" alt="${item.name}" />
-          <div class="cart-item-text">${item.name} x${item.qty} - $${(item.price * item.qty).toFixed(2)}</div>
-          <button onclick="removeFromCart('${item.id}')" title="Eliminar" style="
-            background: transparent;
-            border: none;
-            color: #ff6b6b;
-            font-weight: bold;
-            font-size: 1.2em;
-            cursor: pointer;
-            flex-shrink: 0;
-          ">×</button>
-        `;
-        cartItemsContainer.appendChild(div);
-      });
-
-      updateTotal();
+    if (!stockEl.getAttribute("data-initial-stock")) {
+      stockEl.setAttribute("data-initial-stock", stockEl.textContent);
     }
 
-    function removeFromCart(productId) {
-  const item = cartItems.find(i => i.id === productId); // ✅ busca ANTES de eliminar
-
-  // Restaurar stock en UI
-  const stockEl = document.querySelector(`[id^=stock][id$=${productId.slice(-1)}]`);
-  const qtyInput = document.querySelector(`[id^=qty][id$=${productId.slice(-1)}]`);
-  const btn = document.querySelector(`button.add-btn[onclick*="'${productId}'"]`);
-
-  if (stockEl && qtyInput && btn && item) {
-    const currentStock = parseInt(stockEl.textContent) || 0;
-    const restoredStock = currentStock + item.qty;
-
-    stockEl.textContent = restoredStock;
-    qtyInput.disabled = false;
-    qtyInput.max = restoredStock;
-    btn.disabled = false;
-    btn.textContent = "Agregar al carrito";
-    btn.style.background = "";
-    btn.style.cursor = "pointer";
-  }
-
-  // Ahora sí lo eliminas del arreglo
-  cartItems = cartItems.filter(item => item.id !== productId);
-
-  updateCart();
-  updateCartCount();
-}
-
-    function updateCartCount() {
-      const countEl = document.getElementById("cart-count");
-      const totalQty = cartItems.reduce((sum, item) => sum + item.qty, 0);
-      countEl.textContent = totalQty;
-      countEl.style.display = totalQty > 0 ? "inline-block" : "none";
+    let requestedQty = parseInt(qtyInput.value);
+    if (isNaN(requestedQty) || requestedQty < 1) {
+      requestedQty = 0;
     }
 
-    function updateTotal() {
-      const envioSelect = document.getElementById("envioTotal");
-      const envioCost = parseFloat(envioSelect.value) || 0;
+    const initialStockRaw = stockEl.getAttribute("data-initial-stock");
+    const initialStock = isNaN(parseInt(initialStockRaw)) ? 0 : parseInt(initialStockRaw);
 
-      let subtotal = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
-      let total = subtotal + envioCost;
+    const existingItem = cartItems.find(item => item.id === id);
+    const alreadyInCart = existingItem ? existingItem.qty : 0;
+    const availableStock = initialStock - alreadyInCart;
 
-      document.getElementById("cart-total").textContent = `Total: $${total.toFixed(2)}`;
-
-      const itemNames = cartItems.map(item => `${item.name} x${item.qty}`).join(', ');
-      document.getElementById("item_name").value = itemNames;
-      document.getElementById("amount").value = total.toFixed(2);
+    if (requestedQty === 0) {
+      alert("Cantidad inválida o cero");
+      return;
     }
 
-    function toggleCart() {
-      const cart = document.getElementById("cart");
-      cart.style.display = cart.style.display === "block" ? "none" : "block";
+    if (requestedQty > availableStock) {
+      alert("No hay suficiente stock");
+      return;
     }
 
-    function validateCart() {
-      if (cartItems.length === 0) {
-        alert("El carrito está vacío");
-        return false;
-      }
-      return true;
+    if (existingItem) {
+      existingItem.qty += requestedQty;
+    } else {
+      const productDiv = btn.closest('.product');
+      const imgSrc = productDiv ? productDiv.getAttribute('data-img') || '' : '';
+      cartItems.push({ id, name, price, qty: requestedQty, img: imgSrc });
     }
 
-    // Función para mostrar porcentaje de descuento pequeño junto al precio
-    function showDiscountPercent(priceId, oldPriceSelector, discountId) {
-      const priceEl = document.getElementById(priceId);
-      const oldPriceEl = document.querySelector(oldPriceSelector);
-      const discountEl = document.getElementById(discountId);
+    const totalQtyInCart = cartItems.find(item => item.id === id).qty;
+    const newStock = initialStock - totalQtyInCart;
 
-      if (!priceEl || !oldPriceEl || !discountEl) return;
+    stockEl.textContent = newStock >= 0 ? newStock : 0;
+    qtyInput.max = newStock >= 0 ? newStock : 0;
 
-      // Obtener precios sin símbolos y con punto decimal
-      const oldPriceText = oldPriceEl.textContent.replace(/[^\d.,]/g, '').replace(',', '.');
-      const priceText = priceEl.textContent.replace(/[^\d.,]/g, '').replace(',', '.');
-
-      const oldPrice = parseFloat(oldPriceText);
-      const price = parseFloat(priceText);
-
-      if (!isNaN(oldPrice) && !isNaN(price) && oldPrice > price) {
-        const discountPercent = ((oldPrice - price) / oldPrice) * 100;
-        discountEl.textContent = `(-${discountPercent.toFixed(1)}%)`;
-
-        // Estilos pequeños para el porcentaje
-        discountEl.style.color = "#f87171";
-        discountEl.style.marginLeft = "6px";
-        discountEl.style.fontWeight = "600";
-        discountEl.style.fontSize = "0.65em";
-        discountEl.style.verticalAlign = "middle";
-      }
+    if (newStock <= 0) {
+      qtyInput.value = 0;
+      qtyInput.disabled = true;
+      btn.disabled = true;
+      btn.textContent = "Sin stock";
+      btn.style.background = "#6b7280";
+      btn.style.cursor = "not-allowed";
     }
 
-    // Ejecutar para los productos (cambiar selectores si agregas más productos)
-    showDiscountPercent("price1", ".product:nth-child(1) .old-price", "discount1");
-    showDiscountPercent("price2", ".product:nth-child(2) .old-price", "discount2");
-
-    // Inicializar contador oculto si carrito vacío
+    updateCart();
     updateCartCount();
-  </script>
+    saveCart();
+  }
+
+  function getIndexFromId(id) {
+    return id.replace(/\D/g, '');
+  }
+
+  function incrementQty(id) {
+    const item = cartItems.find(i => i.id === id);
+    if (!item) return;
+
+    const index = getIndexFromId(id);
+    const stockEl = document.getElementById(`stock${index}`);
+    const qtyInput = document.getElementById(`qty${index}`);
+    const addBtn = document.querySelector(`button.add-btn[onclick*="'${id}'"]`);
+
+    const initialStockRaw = stockEl.getAttribute("data-initial-stock");
+    const initialStock = isNaN(parseInt(initialStockRaw)) ? 0 : parseInt(initialStockRaw);
+
+    if (item.qty < initialStock) {
+      item.qty++;
+      const newStock = initialStock - item.qty;
+
+      stockEl.textContent = newStock >= 0 ? newStock : 0;
+      qtyInput.max = newStock >= 0 ? newStock : 0;
+
+      if (newStock <= 0) {
+        qtyInput.disabled = true;
+        addBtn.disabled = true;
+        addBtn.textContent = "Sin stock";
+        addBtn.style.background = "#6b7280";
+        addBtn.style.cursor = "not-allowed";
+      } else {
+        qtyInput.disabled = false;
+        addBtn.disabled = false;
+        addBtn.textContent = "Agregar al carrito";
+        addBtn.style.background = "";
+        addBtn.style.cursor = "pointer";
+      }
+
+      updateCart();
+      updateCartCount();
+      saveCart();
+    } else {
+      alert("No hay más stock disponible");
+    }
+  }
+
+  function decrementQty(id) {
+    const item = cartItems.find(i => i.id === id);
+    if (!item) return;
+
+    const index = getIndexFromId(id);
+    const stockEl = document.getElementById(`stock${index}`);
+    const qtyInput = document.getElementById(`qty${index}`);
+    const addBtn = document.querySelector(`button.add-btn[onclick*="'${id}'"]`);
+
+    const initialStockRaw = stockEl.getAttribute("data-initial-stock");
+    const initialStock = isNaN(parseInt(initialStockRaw)) ? 0 : parseInt(initialStockRaw);
+
+    item.qty--;
+
+    if (item.qty <= 0) {
+      removeFromCart(id);
+    } else {
+      const newStock = initialStock - item.qty;
+      stockEl.textContent = newStock >= 0 ? newStock : 0;
+
+      qtyInput.max = newStock >= 0 ? newStock : 0;
+      qtyInput.disabled = false;
+      addBtn.disabled = false;
+      addBtn.textContent = "Agregar al carrito";
+      addBtn.style.background = "";
+      addBtn.style.cursor = "pointer";
+
+      updateCart();
+      updateCartCount();
+      saveCart();
+    }
+  }
+
+  function removeFromCart(productId) {
+    const item = cartItems.find(i => i.id === productId);
+    if (!item) return;
+
+    const index = getIndexFromId(productId);
+    const stockEl = document.getElementById(`stock${index}`);
+    const qtyInput = document.getElementById(`qty${index}`);
+    const btn = document.querySelector(`button.add-btn[onclick*="'${productId}'"]`);
+
+    if (stockEl && qtyInput && btn) {
+      const initialStockRaw = stockEl.getAttribute("data-initial-stock");
+      const initialStock = isNaN(parseInt(initialStockRaw)) ? 0 : parseInt(initialStockRaw);
+      const currentStock = parseInt(stockEl.textContent) || 0;
+      const restoredStock = currentStock + item.qty;
+
+      stockEl.textContent = restoredStock > initialStock ? initialStock : restoredStock;
+      qtyInput.disabled = false;
+      qtyInput.max = stockEl.textContent;
+      btn.disabled = false;
+      btn.textContent = "Agregar al carrito";
+      btn.style.background = "";
+      btn.style.cursor = "pointer";
+    }
+
+    cartItems = cartItems.filter(i => i.id !== productId);
+
+    updateCart();
+    updateCartCount();
+    saveCart();
+  }
+
+  // Vaciar todo el carrito
+  function clearCart() {
+    if (!confirm("¿Seguro que quieres vaciar el carrito?")) return;
+
+    cartItems.forEach(item => {
+      const index = getIndexFromId(item.id);
+      const stockEl = document.getElementById(`stock${index}`);
+      const qtyInput = document.getElementById(`qty${index}`);
+      const btn = document.querySelector(`button.add-btn[onclick*="'${item.id}'"]`);
+      if (stockEl && qtyInput && btn) {
+        const initialStockRaw = stockEl.getAttribute("data-initial-stock");
+        const initialStock = isNaN(parseInt(initialStockRaw)) ? 0 : parseInt(initialStockRaw);
+        stockEl.textContent = initialStock;
+        qtyInput.value = 1;
+        qtyInput.disabled = false;
+        qtyInput.max = initialStock;
+        btn.disabled = false;
+        btn.textContent = "Agregar al carrito";
+        btn.style.background = "";
+        btn.style.cursor = "pointer";
+      }
+    });
+
+    cartItems = [];
+    updateCart();
+    updateCartCount();
+    saveCart();
+  }
+
+  function updateCart() {
+    const cartItemsContainer = document.getElementById("cart-items");
+    cartItemsContainer.innerHTML = "";
+
+    cartItems.forEach(item => {
+      const div = document.createElement("div");
+      div.classList.add("cart-item");
+      div.innerHTML = `
+        <img src="${item.img}" alt="${item.name}" />
+        <div class="cart-item-text">${item.name}</div>
+        <button onclick="decrementQty('${item.id}')" title="Disminuir" style="
+          background: transparent;
+          border: none;
+          color: #facc15;
+          font-weight: bold;
+          font-size: 1.5em;
+          cursor: pointer;
+          flex-shrink: 0;
+          width: 30px;
+        ">−</button>
+        <span style="min-width: 20px; text-align: center;">${item.qty}</span>
+        <button onclick="incrementQty('${item.id}')" title="Aumentar" style="
+          background: transparent;
+          border: none;
+          color: #facc15;
+          font-weight: bold;
+          font-size: 1.5em;
+          cursor: pointer;
+          flex-shrink: 0;
+          width: 30px;
+        ">+</button>
+        <span style="margin-left: auto; font-weight: 700;">$${(item.price * item.qty).toFixed(2)}</span>
+      `;
+      cartItemsContainer.appendChild(div);
+    });
+
+    // Botón para vaciar carrito
+    const cartDiv = document.getElementById("cart");
+    let clearBtn = document.getElementById("clear-cart-btn");
+    if (cartItems.length > 0) {
+      if (!clearBtn) {
+        clearBtn = document.createElement("button");
+        clearBtn.id = "clear-cart-btn";
+        clearBtn.textContent = "Vaciar carrito";
+        clearBtn.style.marginTop = "10px";
+        clearBtn.style.background = "#ef4444";
+        clearBtn.style.color = "white";
+        clearBtn.style.border = "none";
+        clearBtn.style.padding = "8px 15px";
+        clearBtn.style.cursor = "pointer";
+        clearBtn.style.borderRadius = "5px";
+        clearBtn.onclick = clearCart;
+        cartDiv.appendChild(clearBtn);
+      }
+    } else {
+      if (clearBtn) clearBtn.remove();
+    }
+
+    updateTotal();
+  }
+
+  function updateCartCount() {
+    const countEl = document.getElementById("cart-count");
+    const totalQty = cartItems.reduce((sum, item) => sum + item.qty, 0);
+    countEl.textContent = totalQty;
+    countEl.style.display = totalQty > 0 ? "inline-block" : "none";
+  }
+
+  function updateTotal() {
+    const envioSelect = document.getElementById("envioTotal");
+    const envioCost = parseFloat(envioSelect.value) || 0;
+
+    let subtotal = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
+    let total = subtotal + envioCost;
+
+    document.getElementById("cart-total").textContent = `Total: $${total.toFixed(2)}`;
+
+    const itemNames = cartItems.map(item => `${item.name} x${item.qty}`).join(', ');
+    document.getElementById("item_name").value = itemNames;
+    document.getElementById("amount").value = total.toFixed(2);
+  }
+
+  function toggleCart() {
+    const cart = document.getElementById("cart");
+    cart.style.display = cart.style.display === "block" ? "none" : "block";
+  }
+
+  function validateCart() {
+    if (cartItems.length === 0) {
+      alert("El carrito está vacío");
+      return false;
+    }
+    return true;
+  }
+
+  // Función para mostrar porcentaje de descuento pequeño junto al precio
+  function showDiscountPercent(priceId, oldPriceSelector, discountId) {
+    const priceEl = document.getElementById(priceId);
+    const oldPriceEl = document.querySelector(oldPriceSelector);
+    const discountEl = document.getElementById(discountId);
+
+    if (!priceEl || !oldPriceEl || !discountEl) return;
+
+    const oldPriceText = oldPriceEl.textContent.replace(/[^\d.,]/g, '').replace(',', '.');
+    const priceText = priceEl.textContent.replace(/[^\d.,]/g, '').replace(',', '.');
+
+    const oldPrice = parseFloat(oldPriceText);
+    const price = parseFloat(priceText);
+
+    if (isNaN(oldPrice) || isNaN(price) || oldPrice <= price) {
+      discountEl.textContent = "";
+      return;
+    }
+
+    const discount = Math.round(((oldPrice - price) / oldPrice) * 100);
+    discountEl.textContent = ` -${discount}%`;
+  }
+
+  // Mostrar descuentos en la página
+  showDiscountPercent("price1", "#oldprice1", "discount1");
+  showDiscountPercent("price2", "#oldprice2", "discount2");
+</script>
+<script>
+  // Fecha límite para el descuento (ejemplo: 21 de junio 2025 23:59:59)
+  const discountEndDate = new Date("2025-06-21T23:59:59").getTime();
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = discountEndDate - now;
+
+    if (distance < 0) {
+      document.getElementById("discount-countdown").textContent = "El descuento del Día del Padre ha finalizado.";
+      clearInterval(countdownInterval);
+      // Opcional: aquí puedes remover o desactivar el descuento en los productos
+      removeDiscountFromProducts();
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("discount-countdown").textContent = 
+      `Descuento Día del Padre 10.53% válido por: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  // Aplicar descuento en cada producto y mostrar precio con descuento
+  function applyDiscountToProducts() {
+    const discountPercent = 10.53;
+
+    // Supongamos que tus precios tienen la clase 'price' y el precio original está en 'data-price-original'
+    document.querySelectorAll('.product').forEach(product => {
+      const priceEl = product.querySelector('.price');
+      if (!priceEl) return;
+
+      // Guardamos el precio original en un atributo para no perderlo
+      if (!priceEl.hasAttribute('data-price-original')) {
+        let originalPriceText = priceEl.textContent.replace(/[^\d.,]/g, '').replace(',', '.');
+        priceEl.setAttribute('data-price-original', originalPriceText);
+      }
+
+      const originalPrice = parseFloat(priceEl.getAttribute('data-price-original'));
+      if (isNaN(originalPrice)) return;
+
+      const discountedPrice = (originalPrice * (1 - discountPercent / 100)).toFixed(2);
+
+      priceEl.textContent = `$${discountedPrice}`;
+
+      // Mostrar el porcentaje de descuento al lado
+      let discountTag = product.querySelector('.discount-tag');
+      if (!discountTag) {
+        discountTag = document.createElement('span');
+        discountTag.className = 'discount-tag';
+        discountTag.style.color = '#ef4444';
+        discountTag.style.fontWeight = 'bold';
+        discountTag.style.marginLeft = '5px';
+        product.querySelector('.price').after(discountTag);
+      }
+      discountTag.textContent = `-10.53%`;
+    });
+  }
+
+  // Opcional: función para remover descuento cuando se acabe la promo
+  function removeDiscountFromProducts() {
+    document.querySelectorAll('.product').forEach(product => {
+      const priceEl = product.querySelector('.price');
+      if (!priceEl) return;
+
+      const originalPrice = priceEl.getAttribute('data-price-original');
+      if (originalPrice) {
+        priceEl.textContent = `$${parseFloat(originalPrice).toFixed(2)}`;
+      }
+
+      const discountTag = product.querySelector('.discount-tag');
+      if (discountTag) discountTag.remove();
+    });
+  }
+
+  // Actualizar el contador cada segundo
+  updateCountdown();
+  const countdownInterval = setInterval(updateCountdown, 1000);
+
+  // Aplicar descuento al cargar la página
+  applyDiscountToProducts();
+</script>
+
 </body>
 </html>
+
