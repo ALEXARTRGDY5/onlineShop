@@ -445,7 +445,7 @@
 
       if (!isNaN(oldPrice) && !isNaN(price) && oldPrice > price) {
         const discountPercent = ((oldPrice - price) / oldPrice) * 100;
-        discountEl.textContent = `(${discountPercent.toFixed(1)}%)`;
+        discountEl.textContent = `(-${discountPercent.toFixed(1)}%)`;
 
         // Estilos pequeños para el porcentaje
         discountEl.style.color = "#f87171";
