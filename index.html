@@ -295,47 +295,74 @@
     <p>Billeteras de Hombre</p>
   </header>
 
- <div id="father-day-discount" style="
+<div id="father-day-discount" style="
   background: linear-gradient(90deg, #f59e0b, #fbbf24);
   color: #1f2937;
-  font-weight: bold;
-  font-size: 18px;
-  padding: 15px 20px;
-  margin: 20px 0;
-  border-radius: 8px;
+  font-weight: 700;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  padding: 12px 20px;
+  margin: 15px auto;
+  max-width: 320px;
+  border-radius: 10px;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 15px rgba(245, 158, 11, 0.5);
+  user-select: none;
+  cursor: default;
+  animation: pulseGlow 3s ease-in-out infinite;
 ">
-  🎁 ¡Descuento especial del Día del Padre! — Termina en <span id="father-day-timer" style="color: #dc2626;"></span>
+  <span style="display: block; margin-bottom: 8px; font-size: 20px; color: #b45309;">
+    🎁 <strong>¡Atención RD!</strong>
+  </span>
+  Descuento <span style="color: #dc2626; font-size: 18px;">10.53%</span> <br>
+  activo desde las <strong>12:00 AM</strong><br>
+  del <strong>27 de julio</strong>.<br>
+  <br>
+  <span style="font-size: 18px; color: #dc2626; font-weight: 900;">
+    Faltan <span id="father-day-timer"></span>
+  </span><br>
+  <small style="color: #92400e; font-style: italic; margin-top: 6px; display: block;">
+    ¡Estén atentos y aprovechen!
+  </small>
+
   <script>
     (function () {
       const countdownSpan = document.getElementById("father-day-timer");
-      const endTime = new Date();
-      endTime.setHours(23, 59, 59, 999); // Hoy a las 23:59:59
+      const discountStartDate = new Date(2025, 6, 27, 0, 0, 0);
 
       function updateCountdown() {
         const now = new Date();
-        const timeDiff = endTime - now;
+        let diff = discountStartDate - now;
 
-        if (timeDiff <= 0) {
-          countdownSpan.textContent = "¡La oferta terminó!";
+        if (diff <= 0) {
+          countdownSpan.textContent = "¡El descuento está activo!";
           return;
         }
 
-        const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-        countdownSpan.textContent = `${hours}h ${minutes}m ${seconds}s`;
+        countdownSpan.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
       }
 
       updateCountdown();
       setInterval(updateCountdown, 1000);
     })();
   </script>
+
+  <style>
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 8px 3px rgba(245, 158, 11, 0.6);
+      }
+      50% {
+        box-shadow: 0 0 14px 6px rgba(245, 158, 11, 0.9);
+      }
+    }
+  </style>
 </div>
-
-
 
 
 <!-- Arriba de todos los productos -->
