@@ -266,10 +266,10 @@
 }
 
 .price .current-price-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
+
 
 .price .current-price {
   font-size: 1.4em;
@@ -282,6 +282,22 @@
   font-weight: 600;
   vertical-align: middle;
   margin-left: 6px;
+}
+
+#product-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start;
+  padding: 10px;
+}
+
+.product {
+  flex: 1 1 250px;
+  max-width: 300px;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 8px;
 }
 
 
@@ -302,7 +318,7 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 16px;
   padding: 12px 20px;
-  margin: 15px auto;
+  margin: 15px ;
   max-width: 320px;
   border-radius: 10px;
   text-align: center;
@@ -364,45 +380,45 @@
   </style>
 </div>
 
-
 <!-- Arriba de todos los productos -->
 <div id="discount"></div>
 
+<div id="product-container">
   <div class="product" data-img="https://img.ltwebstatic.com/images3_spmp/2023/08/22/36/169271088231bfcdf82806be45938262b9159123a0_thumbnail_720x.jpg">
-  <span class="badge">Popular</span>
-  <img src="https://img.ltwebstatic.com/images3_spmp/2023/08/22/36/169271088231bfcdf82806be45938262b9159123a0_thumbnail_720x.jpg" alt="Cartera de Hombre" />
-  <h2>Cartera de Hombre</h2>
-  <div class="price">
-    <span class="old-price">$5.00</span>
-    <div class="current-price-wrapper">
-  <span class="current-price" id="price1">$4.75</span>
-  <span class="discount" id="discount1">(-5%)</span>
-</div>
-
+    <span class="badge">Popular</span>
+    <img src="https://img.ltwebstatic.com/images3_spmp/2023/08/22/36/169271088231bfcdf82806be45938262b9159123a0_thumbnail_720x.jpg" alt="Cartera de Hombre" />
+    <h2>Cartera de Hombre</h2>
+    <div class="price">
+      <span class="old-price">$5.00</span>
+      <div class="current-price-wrapper">
+        <span class="current-price" id="price1">$4.75</span>
+        <span class="discount" id="discount1">(-5%)</span>
+      </div>
+    </div>
+    <p>Stock: <span id="stock1">12</span></p>
+    <label for="qty1">Cantidad:</label>
+    <input id="qty1" type="number" min="1" max="12" value="1" />
+    <button class="add-btn" onclick="addToCart('p1', 'Cartera de Hombre', 4.75, 'qty1', 'stock1', this)">Agregar al carrito</button>
   </div>
-  <p>Stock: <span id="stock1">12</span></p>
-  <label for="qty1">Cantidad:</label>
-  <input id="qty1" type="number" min="1" max="12" value="1" />
-  <button class="add-btn" onclick="addToCart('p1', 'Cartera de Hombre', 4.75, 'qty1', 'stock1', this)">Agregar al carrito</button>
-</div>
 
-<div class="product" data-img="https://img.ltwebstatic.com/images3_spmp/2023/11/29/d5/1701248613da37108e4da7531a98581bb09ae55015_thumbnail_720x.jpg">
-  <span class="badge">Nuevo</span>
-  <img src="https://img.ltwebstatic.com/images3_spmp/2023/11/29/d5/1701248613da37108e4da7531a98581bb09ae55015_thumbnail_720x.jpg" alt="Cartera de Hombre" />
-  <h2>Cartera de Hombre</h2>
-  <div class="price">
-    <span class="old-price">$5.50</span>
-    <div class="current-price-wrapper">
-  <span class="current-price" id="price2">$4.75</span>
-  <span class="discount" id="discount2">(-13.6%)</span>
-</div>
-
+  <div class="product" data-img="https://img.ltwebstatic.com/images3_spmp/2023/11/29/d5/1701248613da37108e4da7531a98581bb09ae55015_thumbnail_720x.jpg">
+    <span class="badge">Nuevo</span>
+    <img src="https://img.ltwebstatic.com/images3_spmp/2023/11/29/d5/1701248613da37108e4da7531a98581bb09ae55015_thumbnail_720x.jpg" alt="Cartera de Hombre" />
+    <h2>Cartera de Hombre</h2>
+    <div class="price">
+      <span class="old-price">$5.50</span>
+      <div class="current-price-wrapper">
+        <span class="current-price" id="price2">$4.75</span>
+        <span class="discount" id="discount2">(-13.6%)</span>
+      </div>
+    </div>
+    <p>Stock: <span id="stock2">2</span></p>
+    <label for="qty2">Cantidad:</label>
+    <input id="qty2" type="number" min="1" max="2" value="1" />
+    <button class="add-btn" onclick="addToCart('p2', 'Cartera de Hombre', 4.75, 'qty2', 'stock2', this)">Agregar al carrito</button>
   </div>
-  <p>Stock: <span id="stock2">2</span></p>
-  <label for="qty2">Cantidad:</label>
-  <input id="qty2" type="number" min="1" max="2" value="1" />
-  <button class="add-btn" onclick="addToCart('p2', 'Cartera de Hombre', 4.75, 'qty2', 'stock2', this)">Agregar al carrito</button>
 </div>
+
 
 
   <!-- Botón carrito -->
@@ -902,4 +918,3 @@
 
 </body>
 </html>
-
