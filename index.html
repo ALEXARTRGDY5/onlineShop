@@ -300,7 +300,78 @@
   border-radius: 8px;
 }
 
+/*cupones*/
 
+.coupon-panel-wrapper {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+#coupon-toggle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #9333ea;
+  color: white;
+  font-size: 22px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coupon-btn {
+  background: linear-gradient(135deg, #a855f7, #9333ea);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.coupon-btn:disabled {
+  background: #6b7280;
+  cursor: not-allowed;
+}
+
+#coupon-panel {
+  margin-top: 10px;
+  background-color: #4c1d95;
+  border: 2px solid #9333ea;
+  padding: 12px;
+  border-radius: 10px;
+  width: 240px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+  color: white;
+}
+
+#coupon-list {
+  list-style: none;
+  padding: 0;
+}
+
+.coupon {
+  border-bottom: 1px solid #6b528b;
+  padding: 8px 0;
+}
+
+.coupon:last-child {
+  border-bottom: none;
+}
+
+.timer {
+  font-size: 0.85em;
+  color: #f3e8ff;
+  margin-top: 4px;
+}
+
+.hidden {
+  display: none;
+}
 
   </style>
 </head>
@@ -310,6 +381,32 @@
     <h1>Tienda Online</h1>
     <p>Billeteras de Hombre</p>
   </header>
+
+<div class="coupon-panel-wrapper">
+  <div id="coupon-panel" class="hidden">
+    <h3 style="color:#facc15;">Cupones disponibles</h3>
+    <ul id="coupon-list">
+      <li id="coupon-weekly" class="coupon">
+        <div>
+          <strong>2.5% de descuento</strong><br>
+          Válido por 48 h
+        </div>
+        <button class="coupon-btn" id="claim-weekly">Reclamar</button>
+        <div class="timer" id="timer-weekly">vencimiento: 48:00:00</div>
+      </li>
+      <li id="coupon-share" class="coupon">
+        <div>
+          <strong>1% por compartir</strong><br>
+          Válido por 24 h (se regenera cada 24 h)
+        </div>
+        <button class="coupon-btn" id="claim-share">Reclamar</button>
+        <div class="timer" id="timer-share">vencimiento: 24:00:00</div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
 
 <div id="father-day-discount" style="
   background: linear-gradient(90deg, #f59e0b, #fbbf24);
@@ -391,8 +488,8 @@
     <div class="price">
       <span class="old-price">$5.00</span>
       <div class="current-price-wrapper">
-        <span class="current-price" id="price1">$4.75</span>
-        <span class="discount" id="discount1">(-5%)</span>
+        <span class="current-price" id="price1">$4.22</span>
+        <span class="discount" id="discount1">(-15.53%)</span>
       </div>
     </div>
     <p>Stock: <span id="stock1">12</span></p>
@@ -408,8 +505,8 @@
     <div class="price">
       <span class="old-price">$5.50</span>
       <div class="current-price-wrapper">
-        <span class="current-price" id="price2">$4.75</span>
-        <span class="discount" id="discount2">(-13.6%)</span>
+        <span class="current-price" id="price2">$4.17</span>
+        <span class="discount" id="discount2">(-24.13%)</span>
       </div>
     </div>
     <p>Stock: <span id="stock2">2</span></p>
@@ -417,9 +514,29 @@
     <input id="qty2" type="number" min="1" max="2" value="1" />
     <button class="add-btn" onclick="addToCart('p2', 'Cartera de Hombre', 4.75, 'qty2', 'stock2', this)">Agregar al carrito</button>
   </div>
+
+
+  <div class="product" data-img="https://m.media-amazon.com/images/I/81dfPbcOPrL._AC_SL1500_.jpg">
+    <span class="badge">Nuevo</span>
+    <img src="https://m.media-amazon.com/images/I/81dfPbcOPrL._AC_SL1500_.jpg" alt="Cartera de Hombre" />
+    <h2>Domino</h2>
+    <div class="price">
+      <span class="old-price">$6.21</span>
+      <div class="current-price-wrapper">
+        <span class="current-price" id="price2">$5.78</span>
+        <span class="discount" id="discount2">(-11.4%)</span>
+      </div>
+    </div>
+    <p>Stock: <span id="stock3">2</span></p>
+    <label for="qty3">Cantidad:</label>
+    <input id="qty3" type="number" min="1" max="2" value="1" />
+    <button class="add-btn" onclick="addToCart('p3', 'Domino', 5.78, 'qty3', 'stock3', this)">Agregar al carrito</button>
+  </div>
 </div>
 
+</div>
 
+  
 
   <!-- Botón carrito -->
   <button class="cart-toggle" onclick="toggleCart()">
@@ -461,7 +578,6 @@
     </form>
   </div>
   
-
  <script>
   let cartItems = [];
 
@@ -915,6 +1031,83 @@
   // Aplicar descuento al cargar la página
   applyDiscountToProducts();
 </script>
+
+<script>
+  const weeklyKey = 'coupon_weekly_time';
+  const shareKey = 'coupon_share_time';
+
+  const claimWeekly = document.getElementById('claim-weekly');
+  const claimShare = document.getElementById('claim-share');
+  const timerWeekly = document.getElementById('timer-weekly');
+  const timerShare = document.getElementById('timer-share');
+
+  function formatTime(ms) {
+    const totalSec = Math.floor(ms/1000);
+    const h = String(Math.floor(totalSec/3600)).padStart(2,'0');
+    const m = String(Math.floor((totalSec%3600)/60)).padStart(2,'0');
+    const s = String(totalSec%60).padStart(2,'0');
+    return `${h}:${m}:${s}`;
+  }
+
+  function updateTimers(){
+    const now = Date.now();
+
+    // semanal 48h
+    const wTime = parseInt(localStorage.getItem(weeklyKey)) || 0;
+    const wRemain = wTime > now ? wTime - now : 0;
+    if (wRemain>0) {
+      timerWeekly.textContent = `vencimiento: ${formatTime(wRemain)}`;
+      claimWeekly.disabled = true;
+    } else {
+      timerWeekly.textContent = `vencimiento: listo`;
+      claimWeekly.disabled = false;
+    }
+
+    // compartir 24h
+    const sTime = parseInt(localStorage.getItem(shareKey)) || 0;
+    const sRemain = sTime > now ? sTime - now : 0;
+    if (sRemain>0) {
+      timerShare.textContent = `vencimiento: ${formatTime(sRemain)}`;
+      claimShare.disabled = true;
+    } else {
+      timerShare.textContent = `vencimiento: listo`;
+      claimShare.disabled = false;
+    }
+  }
+
+  claimWeekly.addEventListener('click', ()=>{
+    const expire = Date.now() + 48*3600*1000;
+    localStorage.setItem(weeklyKey, expire);
+    applyCoupon(0.025, 'Semanal 2.5%');
+    updateTimers();
+  });
+
+  claimShare.addEventListener('click', ()=>{
+    const expire = Date.now() + 24*3600*1000;
+    localStorage.setItem(shareKey, expire);
+    applyCoupon(0.01, 'Compartir 1%');
+    updateTimers();
+    // también se podría copiar enlace al portapapeles
+  });
+
+  function applyCoupon(rate, desc) {
+    alert(`Cupón aplicado: ${desc}`);
+    // si usas subtotal + envío, aquí puedes recalcular total
+    // ejemplo: cartTotal = cartTotal * (1 - rate)
+    // y actualizar UI y Paypal form
+  }
+
+  // abrir/cerrar panel
+  document.getElementById('coupon-toggle').addEventListener('click', () => {
+    document.getElementById('coupon-panel').classList.toggle('hidden');
+  });
+
+  setInterval(updateTimers,1000);
+  updateTimers();
+</script>
+
+
+
 
 </body>
 </html>
