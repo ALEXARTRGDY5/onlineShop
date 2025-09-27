@@ -1,29 +1,333 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Tienda Online</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colmado Online - Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: #f5f7fa;
+    display: flex;
+    height: 100vh;
+    position: relative;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 220px;
+    background: #1e293b;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  .sidebar h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #3b82f6;
+  }
+  .sidebar a {
+    color: #d1d5db;
+    text-decoration: none;
+    padding: 10px 0;
+    display: block;
+    border-radius: 6px;
+    transition: 0.2s;
+    cursor: pointer;
+  }
+  .sidebar a:hover { background: #374151; color: white; }
+
+  /* Main */
+  .main {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .header {
+    font-size: 32px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .subheader {
+    color: #4b5563;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .descripcion {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #374151;
+    font-size: 16px;
+  }
+
+  .input-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  input[type="text"], input[type="number"] {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+  }
+  button {
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-weight: bold;
+    transition: 0.2s;
+  }
+  #addButton { background-color: #3b82f6; color: white; }
+  #addButton:hover { background-color: #2563eb; }
+  #sendButton {
+    background-color: #10b981;
+    color: white;
+    margin-top: 20px;
+    padding: 12px;
+    font-size: 16px;
+  }
+  #sendButton:hover { background-color: #059669; }
+
+  .lista-compras {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+  .item {
+    background: #f1f5f9;
+    padding: 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.2s;
+  }
+  .item:hover { background: #e2e8f0; }
+  .actions {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+  .qty-btn {
+    background: #3b82f6;
+    color: white;
+    font-weight: bold;
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  .qty-btn:hover { background: #2563eb; }
+  .delete-btn {
+    background: #ef4444;
+    color: white;
+    padding: 2px 6px;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+  .delete-btn:hover { background: #b91c1c; }
+  #preview {
+    background: #d1fae5;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    font-family: monospace;
+    min-height: 80px;
+    white-space: pre-line;
+    color: #065f46;
+  }
+
+  /* Ofertas */
+  .ofertas {
+    background: linear-gradient(135deg, #facc15, #f97316);
+    padding: 25px;
+    border-radius: 20px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 800;
+    color: #ffffff;
+    font-size: 22px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .ofertas:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.25);
+  }
+
+  /* Contacto */
+  .contacto-section {
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    padding: 25px;
+    border-radius: 20px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 18px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .contacto-section:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.25);
+  }
+  .contacto-section i { margin-right: 8px; color: #fff; }
+
+  /* Ocultar secciones */
+  .section { display: none; }
+  .active { display: block; }
+
+</style>
 </head>
 <body>
-  <h1>Bienvenido a mi tienda online</h1>
-  <p>Aquí encontrarás los mejores productos.</p>
 
-  <!-- 🔹 Bloque de anuncio de Adsterra -->
-  <div style="margin:20px 0; text-align:center;">
-    <script type="text/javascript">
-      atOptions = {
-        'key' : 'df21b94321558c74f9d6d083d13c7e05',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    </script>
-    <script type="text/javascript" src="//www.highperformanceformat.com/df21b94321558c74f9d6d083d13c7e05/invoke.js"></script>
+<div class="sidebar">
+  <h2>Colmado Menu</h2>
+  <a onclick="showSection('inicio')">Inicio</a>
+  <a onclick="showSection('ofertas')">Ofertas</a>
+  <a onclick="showSection('contacto')">Contacto</a>
+</div>
+
+<div class="main">
+  <!-- Inicio -->
+  <div id="inicio" class="section active">
+    <div class="header">🛒 Colmado Online</div>
+    <div class="subheader">Agrega productos con cantidad y envía tu pedido por WhatsApp</div>
+    <div class="descripcion">
+      Somos un colmado ubicado en La Quisqueya 2, República Dominicana
+    </div>
+
+    <div class="input-section">
+      <input type="text" id="productoInput" placeholder="Producto">
+      <input type="number" id="cantidadInput" placeholder="Cantidad" min="1" value="1">
+      <button id="addButton" onclick="agregarProducto()">➕ Agregar</button>
+    </div>
+
+    <div class="lista-compras" id="listaContainer"></div>
+    <div id="preview">Tu mensaje se verá aquí antes de enviar...</div>
+    <button id="sendButton" onclick="enviarWhatsApp()">📲 Enviar por WhatsApp</button>
   </div>
-  <!-- 🔹 Fin del bloque de anuncio -->
 
-  <p>Más contenido de mi página...</p>
+  <!-- Ofertas -->
+  <div id="ofertas" class="section">
+    <div class="ofertas">🎉 Próximamente 🎉</div>
+  </div>
+
+  <!-- Contacto -->
+  <div id="contacto" class="section">
+    <div class="contacto-section">
+      <div><i class="fa fa-phone"></i> Teléfono: +1 849-623-9976</div>
+      <div><i class="fa fa-map-marker-alt"></i> Dirección: La Quisqueya 2, República Dominicana</div>
+      <div><i class="fa fa-store"></i> Colmado Sinay</div>
+    </div>
+  </div>
+</div>
+
+<!-- Banner flotante discreto esquina inferior derecha -->
+<div id="adsterra-banner" style="
+  position: fixed;
+  bottom: 10px;  /* más abajo, casi en la esquina */
+  right: 20px;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  border-radius: 10px;
+  overflow: hidden;
+">
+  <script type="text/javascript">
+    atOptions = {
+      'key' : 'df21b94321558c74f9d6d083d13c7e05',
+      'format' : 'iframe',
+      'height' : 250,
+      'width' : 300,
+      'params' : {}
+    };
+  </script>
+  <script type="text/javascript" src="//www.highperformanceformat.com/df21b94321558c74f9d6d083d13c7e05/invoke.js"></script>
+</div>
+
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// Lista de compras
+const productoInput = document.getElementById('productoInput');
+const cantidadInput = document.getElementById('cantidadInput');
+const listaContainer = document.getElementById('listaContainer');
+const preview = document.getElementById('preview');
+let listaProductos = [];
+
+function agregarProducto() {
+  const producto = productoInput.value.trim();
+  const cantidad = parseInt(cantidadInput.value);
+  if(!producto || !cantidad || cantidad <= 0) { alert("Ingresa un producto válido y su cantidad."); return; }
+  listaProductos.push({ producto, cantidad });
+  renderLista();
+  productoInput.value = '';
+  cantidadInput.value = 1;
+}
+
+function renderLista() {
+  listaContainer.innerHTML = '';
+  listaProductos.forEach((item, index)=>{
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `<span>${item.producto}</span>
+      <div class="actions">
+        <button class="qty-btn" onclick="cambiarCantidad(${index}, -1)">-</button>
+        <span>${item.cantidad}</span>
+        <button class="qty-btn" onclick="cambiarCantidad(${index}, 1)">+</button>
+        <button class="delete-btn" onclick="eliminarProducto(${index})">X</button>
+      </div>`;
+    listaContainer.appendChild(div);
+  });
+  actualizarPreview();
+}
+
+function cambiarCantidad(index, delta){
+  listaProductos[index].cantidad += delta;
+  if(listaProductos[index].cantidad < 1) listaProductos[index].cantidad = 1;
+  renderLista();
+}
+
+function eliminarProducto(index){
+  listaProductos.splice(index,1);
+  renderLista();
+}
+
+function actualizarPreview(){
+  if(listaProductos.length === 0){ preview.textContent="Tu mensaje se verá aquí antes de enviar..."; return;}
+  let mensaje = "Hola, quiero hacer mi pedido con esta lista:\n";
+  listaProductos.forEach(item=>{mensaje+=`${item.producto} - Cantidad: ${item.cantidad}\n`;});
+  preview.textContent = mensaje;
+}
+
+function enviarWhatsApp(){
+  if(listaProductos.length===0){alert("Agrega productos a tu lista primero."); return;}
+  const numero = "+18496239976";
+  const mensaje = preview.textContent;
+  const url = `https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
+  window.open(url,"_blank");
+}
+</script>
+
 </body>
 </html>
