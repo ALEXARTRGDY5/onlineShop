@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gana Puntos — Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: #fff7ef;
+      --accent-1: #ff9a00;
+      --accent-2: #ffcf57;
+      --muted: #707070;
+      --card: #ffffff;
+      --glass: rgba(255,255,255,0.6);
+      --radius-lg: 20px;
+      --shadow-lg: 0 18px 40px rgba(11,11,11,0.18);
+      --shadow-sm: 0 6px 18px rgba(11,11,11,0.08);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, #fff3d6 0%, #ffe0b8 20%, transparent 21%),
+                  linear-gradient(135deg,#fff 0%, #fff7ef 100%);
+      min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+    }
+    .container{
+      width:100%;max-width:440px;background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.98));
+      border-radius:28px;padding:22px 20px;box-shadow:0 18px 40px rgba(11,11,11,0.18);position:relative;overflow:hidden;
+      backdrop-filter: blur(6px);transform:translateY(8px);opacity:0;animation:enter .5s ease forwards;
+    }
+    @keyframes enter{to{transform:none;opacity:1}}
+    header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+    .avatar{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#fff;font-weight:700;font-size:18px;box-shadow:0 6px 18px rgba(11,11,11,0.08);}
+    .header-text{flex:1}
+    .welcome{font-size:16px;color:#333;font-weight:600}
+    .subtitle{font-size:13px;color:var(--muted)}
+    .points-wrap{display:flex;gap:14px;align-items:center;padding:18px;background:linear-gradient(180deg,#fff8ef,#fff4e8);border-radius:18px;box-shadow:0 6px 18px rgba(11,11,11,0.08);margin-bottom:18px}
+    .points-left{flex:1}
+    .points-value{font-size:22px;font-weight:700;color:#2a2a2a}
+    .points-label{font-size:12px;color:var(--muted);margin-top:6px}
+    .ring{
+      --size:84px;
+      width:var(--size);height:var(--size);border-radius:50%;display:grid;place-items:center;
+      background:conic-gradient(var(--accent-1) 0 var(--deg, 0deg), #f3f1f0 var(--deg, 0deg));
+      padding:8px;box-shadow:0 6px 14px rgba(0,0,0,0.08);
+    }
+    .ring .inner{width:100%;height:100%;border-radius:50%;background:linear-gradient(180deg,#fff,#fff4f0);display:flex;align-items:center;justify-content:center;font-weight:700}
+    .rewards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+    .reward{background:linear-gradient(180deg,#fff,#fffaf6);padding:12px;border-radius:12px;box-shadow:0 6px 18px rgba(11,11,11,0.08);text-align:center}
+    .reward .title{font-weight:600;color:#333;font-size:13px}
+    .reward .sub{font-size:12px;color:var(--muted);margin-top:6px}
+    .actions{display:flex;flex-direction:column;gap:12px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 14px;border-radius:12px;border:none;cursor:pointer;font-weight:700;font-size:15px;box-shadow:0 10px 20px rgba(0,0,0,0.08);transition:transform .18s ease, box-shadow .18s ease;outline:none;}
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{background:linear-gradient(90deg,var(--accent-1),var(--accent-2));color:#fff}
+    .btn-ghost{background:transparent;border:1px solid rgba(0,0,0,0.06);color:#333}
+    .small{font-size:13px;padding:10px 12px}
+    footer{margin-top:14px;text-align:center;color:var(--muted);font-size:12px}
+    @media (max-width:420px){.container{padding:18px;border-radius:20px}.avatar{width:48px;height:48px}.ring{--size:72px}}
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <header>
+      <div class="avatar" id="avatar">A</div>
+      <div class="header-text">
+        <div class="welcome" id="welcome">Bienvenido</div>
+        <div class="subtitle">Gana puntos viendo anuncios y completando ofertas</div>
+      </div>
+      <button id="logoutBtn" class="btn btn-ghost small" aria-label="Cerrar sesión">Salir</button>
+    </header>
+
+    <section class="points-wrap" aria-labelledby="pointsTitle">
+      <div class="points-left">
+        <div id="pointsTitle" class="points-value">Total de Puntos: <span id="score">0</span></div>
+        <div class="points-label">Canjea por recompensas o efectivo</div>
+      </div>
+      <div class="ring" id="progressRing" style="--deg: 0deg;" aria-hidden="true">
+        <div class="inner"><span id="percent">0%</span></div>
+      </div>
+    </section>
+
+    <section class="rewards" aria-label="Lista de recompensas">
+      <div class="reward">
+        <div class="title">5 matches</div>
+        <div class="sub">$500</div>
+      </div>
+      <div class="reward">
+        <div class="title">4 matches + bonus</div>
+        <div class="sub">$100</div>
+      </div>
+      <div class="reward">
+        <div class="title">3 matches</div>
+        <div class="sub">$50</div>
+      </div>
+      <div class="reward">
+        <div class="title">Canjear puntos</div>
+        <div class="sub">Ver opciones</div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button id="showAd" class="btn btn-primary">Ver anuncio y ganar puntos</button>
+      <button id="openOfferwall" class="btn btn-ghost">Abrir Offerwall</button>
+    </div>
+
+    <footer>Hecho con ♥ · Tus puntos actualizan en tu cuenta</footer>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-analytics.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAvOn-tg3VX-cBrNOehjp76Y3jl6cn8I1M",
+      authDomain: "ganardinero-e2795.firebaseapp.com",
+      projectId: "ganardinero-e2795",
+      storageBucket: "ganardinero-e2795.firebasestorage.app",
+      messagingSenderId: "198659285493",
+      appId: "1:198659285493:web:a98379b750a95eaf45c0bc",
+      measurementId: "G-GSZ05S4MKZ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const welcomeEl = document.getElementById('welcome');
+    const avatarEl = document.getElementById('avatar');
+    const scoreEl = document.getElementById('score');
+    const percentEl = document.getElementById('percent');
+    const ringEl = document.getElementById('progressRing');
+    const showAdBtn = document.getElementById('showAd');
+    const openOfferwallBtn = document.getElementById('openOfferwall');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    let currentUser = null;
+
+    function animateNumber(el, from, to, duration = 800){
+      const start = performance.now();
+      function tick(now){
+        const t = Math.min(1, (now - start)/duration);
+        const v = Math.floor(from + (to - from) * (1 - Math.pow(1 - t, 3)));
+        el.textContent = v;
+        if(t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if(!user) return window.location.href = 'index.html';
+      currentUser = user;
+      const displayName = user.displayName || 'Usuario';
+      welcomeEl.textContent = `Bienvenido, ${displayName}`;
+      avatarEl.textContent = (displayName.split(' ').map(s=>s[0]).slice(0,2).join('') || 'U').toUpperCase();
+
+      const userRef = doc(db, 'users', user.uid);
+      const docSnap = await getDoc(userRef);
+      if(!docSnap.exists()){
+        await setDoc(userRef, { uid: user.uid, username: displayName, email: user.email, points: 0 });
+      }
+
+      const snap = await getDoc(userRef);
+      const points = snap.data().points || 0;
+      animateNumber(scoreEl, 0, points);
+      const percent = Math.min(100, Math.round((points/1000)*100));
+      percentEl.textContent = percent + '%';
+      ringEl.style.setProperty('--deg', `${(percent/100)*360}deg`);
+    });
+
+    // Abrir BitLabs en nueva pestaña
+    function openOfferwall(uid){
+      const appToken = 'e1348f1a-f73f-401a-8507-b4b5452221a3';
+      const url = `https://bitlabs.ai/wall?app=${appToken}&user=${uid}`;
+      window.open(url, '_blank');
+    }
+
+    showAdBtn.addEventListener('click', ()=>{
+      if(!currentUser){ alert('Inicia sesión primero'); return; }
+      openOfferwall(currentUser.uid);
+    });
+
+    openOfferwallBtn.addEventListener('click', ()=>{
+      if(!currentUser){ alert('Inicia sesión primero'); return; }
+      openOfferwall(currentUser.uid);
+    });
+
+    logoutBtn.addEventListener('click', async ()=>{
+      try{ await signOut(auth); window.location.href = 'index.html'; }
+      catch(e){ console.error(e); alert('Error al cerrar sesión: '+e.message); }
+    });
+
+    // Para pruebas, puedes simular recompensa manualmente:
+    window.addEventListener('message', async (e)=>{
+      try{
+        const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+        if(data && data.type === 'reward' && currentUser){
+          const pointsToAdd = Number(data.points) || 10;
+          const userRef = doc(db, 'users', currentUser.uid);
+          const snap = await getDoc(userRef);
+          const current = (snap.data().points || 0);
+          const updated = current + pointsToAdd;
+          await updateDoc(userRef, { points: updated });
+          animateNumber(scoreEl, current, updated);
+          const percent = Math.min(100, Math.round((updated/1000)*100));
+          percentEl.textContent = percent + '%';
+          ringEl.style.setProperty('--deg', `${(percent/100)*360}deg`);
+        }
+      }catch(_){}
+    });
+  </script>
+</body>
+</html>
