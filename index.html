@@ -7,7 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <style>
-:root{--bg:#f5f7fa;--panel:#ffffff;--accent:#3b82f6;--green:#10b981;--muted:#6b7280;}
+:root{
+  --bg:#f5f7fa;
+  --panel:#ffffff;
+  --accent:#3b82f6;
+  --green:#10b981;
+  --muted:#6b7280;
+}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Roboto',sans-serif;background:var(--bg);color:#0f1724;line-height:1.3}
 .app{display:flex;min-height:100vh}
@@ -43,11 +49,33 @@ body{font-family:'Roboto',sans-serif;background:var(--bg);color:#0f1724;line-hei
 #sendButton{background:var(--green);color:#fff;border:0;padding:12px;border-radius:12px;font-weight:800;cursor:pointer}
 #sendButton:hover{background:#059669}
 .contact-row{display:flex;gap:10px;align-items:center;margin-bottom:6px}
-.whatsapp-float{position:fixed;right:18px;bottom:18px;background:#25D366;color:#fff;width:60px;height:60px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 18px rgba(0,0,0,0.18);cursor:pointer;z-index:999}
+.whatsapp-float{position:fixed;right:18px;bottom:80px;background:#25D366;color:#fff;width:60px;height:60px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 18px rgba(0,0,0,0.18);cursor:pointer;z-index:999}
 .whatsapp-float:hover{transform:translateY(-3px)}
 #searchInput{width:100%;padding:8px 12px;border-radius:8px;border:1px solid #ccc;margin-bottom:12px;font-size:14px}
-@media (max-width:980px){ .order-area{grid-template-columns:1fr} .sidebar{display:none} }
-@media (max-width:420px){ .product-img{max-width:120px;height:90px} }
+
+/* ===== MOVILES ===== */
+@media (max-width:980px){
+  .sidebar{display:none}
+  .order-area{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    z-index: 999;
+    grid-template-columns: 1fr;
+  }
+  .order-list{max-height:150px; overflow-y:auto;}
+  .order-right{flex-direction:row; justify-content:space-between; align-items:center;}
+  #preview{display:none;}
+}
+@media (max-width:420px){
+  .product-img{max-width:120px;height:90px}
+  .product-card{padding:8px;font-size:13px}
+}
 </style>
 </head>
 <body>
@@ -81,7 +109,6 @@ body{font-family:'Roboto',sans-serif;background:var(--bg);color:#0f1724;line-hei
         </div>
 
         <aside class="order-right">
-          <div id="preview">Tu mensaje se verá aquí antes de enviar...</div>
           <div id="totalPedido">Total: RD$0</div>
           <button id="sendButton" onclick="enviarWhatsApp()">📲 Enviar por WhatsApp</button>
         </aside>
@@ -153,11 +180,11 @@ const productos = [
   {id:'jugo_ya_chinola', nombre:'Jugo Ya Chinola', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV7lJfIf65kkIa5EOE58gqgRb857n4j1ljwA&s', opciones:['unidad'], tipo:'entero'}
 ];
 
+
 let listaProductos = [];
 
 const catalogGrid = document.getElementById('catalogGrid');
 const listaContainer = document.getElementById('listaContainer');
-const preview = document.getElementById('preview');
 const totalPedidoEl = document.getElementById('totalPedido');
 
 function construirCatalogo(){
@@ -204,7 +231,6 @@ function renderLista(){
     listaContainer.appendChild(div);
   });
   totalPedidoEl.textContent='Total: RD$'+total;
-  actualizarPreview(total);
 }
 
 function cambiarCantidad(index,delta){
@@ -218,20 +244,15 @@ function cambiarCantidad(index,delta){
 function eliminarProducto(index){ listaProductos.splice(index,1); renderLista(); }
 function vaciarPedido(){ if(confirm('Vaciar todo el pedido?')){ listaProductos=[]; renderLista();} }
 
-function actualizarPreview(total){
-  if(listaProductos.length===0){ preview.textContent='Tu mensaje se verá aquí antes de enviar...'; return; }
+function enviarWhatsApp(){
+  if(listaProductos.length===0){ alert('Agrega productos primero.'); return; }
   let mensaje='Hola, quiero hacer mi pedido:\n';
   listaProductos.forEach(item=>{
     mensaje+=`${item.producto} - Cantidad: ${item.cantidad} ${item.unit} - RD$${item.precio}\n`;
   });
+  const total = listaProductos.reduce((a,b)=>a+b.precio,0);
   mensaje += `\nTotal a pagar: RD$${total}`;
-  preview.textContent=mensaje;
-}
-
-function enviarWhatsApp(){
-  if(listaProductos.length===0){ alert('Agrega productos primero.'); return; }
   const numero='+18496239976';
-  const mensaje=preview.textContent;
   const url=`https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
   window.open(url,'_blank');
 }
