@@ -3,194 +3,303 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gana Puntos - Login Profesional</title>
+<title>Colmado Sinay - Tienda Online</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
 <style>
-  :root {
-    --primary-gradient: linear-gradient(135deg, #6a11cb, #2575fc);
-    --btn-bg: #fff;
-    --btn-color: #555;
-    --btn-shadow: rgba(0,0,0,0.25);
-    --container-bg: rgba(255,255,255,0.1);
-    --container-shadow: rgba(0,0,0,0.35);
-    --text-color: #fff;
-    --radius: 20px;
-    --font: 'Roboto', sans-serif;
-  }
+/* Reset básico */
+* { box-sizing: border-box; margin:0; padding:0; }
+body { font-family:'Roboto',sans-serif; background:#f5f7fa; color:#0f1724; line-height:1.4; }
+html, body { height: 100%; }
 
-  * { margin:0; padding:0; box-sizing:border-box; font-family: var(--font); }
+/* Layout principal: sidebar + main */
+.app { display: flex; min-height: 100vh; gap: 0; }
+.sidebar {
+  width: 220px;
+  background:#1e293b;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  padding:20px;
+  gap:10px;
+  box-shadow: 4px 0 12px rgba(2,6,23,0.08);
+}
+.sidebar h2 { font-size:20px; color:#3b82f6; text-align:center; margin-bottom:6px; }
+.sidebar a {
+  color:#d1d5db; text-decoration:none; padding:10px; border-radius:8px; display:block; font-weight:500;
+}
+.sidebar a:hover { background:#374151; color:#fff; }
 
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: var(--primary-gradient);
-    color: var(--text-color);
-    overflow: hidden;
-  }
+.main {
+  flex:1;
+  padding:26px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  overflow:auto;
+}
 
-  .login-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    animation: fadeIn 1s ease;
-  }
+/* Cabecera y descripción */
+.page-header { text-align:center; margin-bottom:10px; }
+.page-header h1 { font-size:28px; color:#0b1220; margin-bottom:6px; }
+.page-header p { color:#475569; margin-bottom:12px; }
 
-  .login-card {
-    background: var(--container-bg);
-    padding: 50px 35px;
-    border-radius: var(--radius);
-    backdrop-filter: blur(15px);
-    text-align: center;
-    width: 360px;
-    box-shadow: 0 12px 40px var(--container-shadow);
-    border: 1px solid rgba(255,255,255,0.25);
-    animation: fadeInScale 0.8s ease forwards;
-    position: relative;
-  }
+/* Panel principal */
+.panel {
+  background:#ffffff;
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(2,6,23,0.05);
+}
 
-  .login-card h1 {
-    font-size: 32px;
-    margin-bottom: 30px;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.45);
-    animation: slideDown 0.8s ease forwards;
-  }
+/* Formulario y lista de compras */
+.input-section {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+  justify-content:center;
+}
+input[type="text"], input[type="number"] {
+  flex:1;
+  min-width:140px;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #e2e8f0;
+  font-size:15px;
+}
+input:focus { outline:none; border-color:#3b82f6; }
 
-  .login-card #googleSignIn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    background: var(--btn-bg);
-    color: var(--btn-color);
-    border: none;
-    padding: 16px;
-    font-size: 17px;
-    font-weight: 600;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    width: 100%;
-    box-shadow: 0 8px 20px var(--btn-shadow);
-    animation: slideUp 0.8s ease 0.3s forwards;
-    opacity: 0;
-  }
+button {
+  cursor:pointer;
+  border:none;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:700;
+  transition: background 0.15s ease;
+}
+#addButton { background:#3b82f6; color:#fff; }
+#addButton:hover { background:#2563eb; }
+#sendButton { background:#10b981; color:#fff; margin-top:12px; width:100%; }
+#sendButton:hover { background:#059669; }
 
-  .login-card #googleSignIn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 14px 28px var(--btn-shadow);
-  }
+.lista-compras {
+  margin-top:10px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  max-height:260px;
+  overflow-y:auto;
+}
+.item {
+  background:#f8fafc;
+  padding:10px 12px;
+  border-radius:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 6px rgba(2,6,23,0.03);
+}
+.actions { display:flex; gap:8px; align-items:center; }
+.qty-btn { background:#3b82f6; color:#fff; padding:6px 9px; border-radius:8px; font-weight:700; }
+.delete-btn { background:#ef4444; color:#fff; padding:6px 9px; border-radius:8px; }
 
-  .login-card #googleSignIn img {
-    width: 24px;
-    height: 24px;
-  }
+#preview {
+  background:#d1fae5;
+  padding:12px;
+  border-radius:10px;
+  margin-top:12px;
+  font-family:monospace;
+  min-height:80px;
+  white-space:pre-line;
+  color:#065f46;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);
+}
 
-  .login-card #loading {
-    margin-top: 18px;
-    font-size: 14px;
-    color: rgba(255,255,255,0.9);
-    display: none;
-    animation: pulse 1.2s infinite;
-  }
+/* Paneles simples para Ofertas / Contacto */
+.simple-panel { margin-top:12px; border-radius:12px; padding:14px; background:#fff; box-shadow:0 6px 16px rgba(2,6,23,0.04); }
 
-  @keyframes fadeInScale {
-    0% { opacity: 0; transform: scale(0.85); }
-    100% { opacity: 1; transform: scale(1); }
-  }
+/* Anuncio inferior inline */
+#adFooterInline {
+  width:100%;
+  max-width:320px;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(2,6,23,0.08);
+  margin:20px auto 0 auto;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+#adFooterInline iframe { width:100% !important; height:250px !important; border:0 !important; }
 
-  @keyframes slideDown {
-    0% { opacity: 0; transform: translateY(-20px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes slideUp {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); opacity:1; }
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
+/* Responsivo */
+@media (max-width:768px) {
+  .app { flex-direction:column; }
+  .sidebar { width:100%; flex-direction:row; justify-content:space-around; padding:12px 6px; }
+  .sidebar h2 { display:none; }
+  .main { padding:18px; }
+  #adFooterInline { max-width:240px; }
+}
+@media (max-width:420px) {
+  #adFooterInline { max-width:200px; }
+  .input-section { flex-direction:column; align-items:stretch; }
+  #sendButton { width:100%; }
+}
 </style>
 </head>
 <body>
-  <section class="login-section">
-    <div class="login-card">
-      <h1>Login</h1>
-      <button id="googleSignIn">
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
-        Iniciar sesión con Google
-      </button>
-      <div id="loading">Iniciando sesión...</div>
+
+<div class="app">
+  <aside class="sidebar">
+    <h2>Colmado Sinay</h2>
+    <a onclick="showSection('inicio')">Inicio</a>
+    <a onclick="showSection('ofertas')">Ofertas</a>
+    <a onclick="showSection('contacto')">Contacto</a>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <h1>Bienvenido a Colmado Sinay</h1>
+      <p>Aquí encontrarás los mejores productos.</p>
     </div>
-  </section>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-analytics.js";
+    <section id="inicio" class="panel">
+      <div class="header" style="text-align:center;font-size:22px;font-weight:700;margin-bottom:6px;">🛒 Colmado Sinay</div>
+      <div class="subheader" style="text-align:center;color:#475569;margin-bottom:10px;">Agrega productos con cantidad y envía tu pedido por WhatsApp</div>
+      <div class="descripcion" style="text-align:center;color:#374151;margin-bottom:12px;">Somos un colmado ubicado en La Quisqueya 2, República Dominicana</div>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAvOn-tg3VX-cBrNOehjp76Y3jl6cn8I1M",
-  authDomain: "ganardinero-e2795.firebaseapp.com",
-  projectId: "ganardinero-e2795",
-  storageBucket: "ganardinero-e2795.firebasestorage.app",
-  messagingSenderId: "198659285493",
-  appId: "1:198659285493:web:a98379b750a95eaf45c0bc",
-  measurementId: "G-GSZ05S4MKZ"
-};
+      <div class="input-section">
+        <input type="text" id="productoInput" placeholder="Producto">
+        <input type="number" id="cantidadInput" placeholder="Cantidad" min="1" value="1">
+        <button id="addButton" onclick="agregarProducto()">➕ Agregar</button>
+      </div>
 
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
-const db = getFirestore(app);
+      <div class="lista-compras" id="listaContainer"></div>
+      <div id="preview">Tu mensaje se verá aquí antes de enviar...</div>
+      <button id="sendButton" onclick="enviarWhatsApp()">📲 Enviar por WhatsApp</button>
+    </section>
 
-const googleBtn = document.getElementById("googleSignIn");
-const loading = document.getElementById("loading");
+    <section id="ofertas" class="simple-panel" style="display:none;">
+      <h3 style="margin-bottom:8px;">Ofertas</h3>
+      <p class="muted">Aquí publicaremos las ofertas pronto.</p>
+    </section>
 
-googleBtn.addEventListener("click", async () => {
-  const provider = new GoogleAuthProvider();
-  loading.style.display = "block";
+    <section id="contacto" class="simple-panel" style="display:none;">
+      <h3 style="margin-bottom:8px;">Contacto</h3>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div><i class="fa fa-phone"></i> Teléfono: +1 849-623-9976</div>
+        <div><i class="fa fa-map-marker-alt"></i> Dirección: La Quisqueya 2, República Dominicana</div>
+        <div><i class="fa fa-store"></i> Colmado Sinay</div>
+      </div>
+    </section>
 
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    <!-- Anuncio inferior inline -->
+    <section>
+      <div id="adFooterInline">
+        <script type="text/javascript">
+          atOptions = {
+            'key' : 'df21b94321558c74f9d6d083d13c7e05',
+            'format' : 'iframe',
+            'height' : 250,
+            'width' : 300,
+            'params' : {}
+          };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/df21b94321558c74f9d6d083d13c7e05/invoke.js"></script>
+      </div>
+    </section>
 
-    const displayName = user.displayName || "Usuario";
-    const userRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(userRef);
+  </main>
+</div>
 
-    if (!docSnap.exists()) {
-      await setDoc(userRef, {
-        uid: user.uid,
-        username: displayName,
-        email: user.email,
-        points: 0
-      });
-    }
+<script>
+// Navegación de secciones
+function showSection(id){
+  document.getElementById('inicio').style.display = (id==='inicio')?'block':'none';
+  document.getElementById('ofertas').style.display = (id==='ofertas')?'block':'none';
+  document.getElementById('contacto').style.display = (id==='contacto')?'block':'none';
+}
 
-    window.location.href = "main.html";
-  } catch (error) {
-    console.error(error);
-    alert("Error de autenticación: " + error.message);
-    loading.style.display = "none";
-  }
-});
+// Lista de compras
+const productoInput = document.getElementById('productoInput');
+const cantidadInput = document.getElementById('cantidadInput');
+const listaContainer = document.getElementById('listaContainer');
+const preview = document.getElementById('preview');
+let listaProductos = [];
 
-onAuthStateChanged(auth, (user) => {
-  if (user) window.location.href = "main.html";
-});
+function agregarProducto() {
+  const producto = productoInput.value.trim();
+  const cantidad = parseInt(cantidadInput.value,10);
+  if(!producto || !cantidad || cantidad<=0){alert("Ingresa un producto válido y su cantidad.");return;}
+  listaProductos.push({producto,cantidad});
+  renderLista();
+  productoInput.value=''; cantidadInput.value=1;
+}
+
+function renderLista(){
+  listaContainer.innerHTML='';
+  listaProductos.forEach((item,index)=>{
+    const div=document.createElement('div');
+    div.className='item';
+    div.innerHTML=`<span>${escapeHtml(item.producto)}</span>
+    <div class="actions">
+      <button class="qty-btn" onclick="cambiarCantidad(${index},-1)">-</button>
+      <span style="min-width:26px;text-align:center;display:inline-block">${item.cantidad}</span>
+      <button class="qty-btn" onclick="cambiarCantidad(${index},1)">+</button>
+      <button class="delete-btn" onclick="eliminarProducto(${index})">X</button>
+    </div>`;
+    listaContainer.appendChild(div);
+  });
+  actualizarPreview();
+}
+
+function cambiarCantidad(index,delta){
+  if(!listaProductos[index])return;
+  listaProductos[index].cantidad+=delta;
+  if(listaProductos[index].cantidad<1) listaProductos[index].cantidad=1;
+  renderLista();
+}
+
+function eliminarProducto(index){ listaProductos.splice(index,1); renderLista(); }
+
+function actualizarPreview(){
+  if(listaProductos.length===0){ preview.textContent="Tu mensaje se verá aquí antes de enviar..."; return;}
+  let mensaje="Hola, quiero hacer mi pedido con esta lista:\n";
+  listaProductos.forEach(item=>{mensaje+=`${item.producto} - Cantidad: ${item.cantidad}\n`;});
+  preview.textContent=mensaje;
+}
+
+function enviarWhatsApp(){
+  if(listaProductos.length===0){alert("Agrega productos a tu lista primero.");return;}
+  const numero="+18496239976";
+  const mensaje=preview.textContent;
+  const url=`https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
+  window.open(url,"_blank");
+}
+
+function escapeHtml(text){
+  const map={'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'};
+  return text.replace(/[&<>"']/g,m=>map[m]);
+}
+
+// Escalar anuncio inferior
+function scaleInlineAd(){
+  const container=document.getElementById('adFooterInline');
+  if(!container)return;
+  const iframe=container.querySelector('iframe');
+  if(!iframe)return;
+  const nominalW=300, nominalH=250;
+  const cw=container.clientWidth;
+  const scale=Math.min(1,cw/nominalW);
+  iframe.style.transform='scale('+scale+')';
+  iframe.style.transformOrigin='top left';
+  container.style.height=(nominalH*scale)+'px';
+}
+window.addEventListener('resize',scaleInlineAd);
+setTimeout(scaleInlineAd,500);
 </script>
+
 </body>
 </html>
