@@ -1,281 +1,370 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colmado Sinay - Tienda Online</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-<style>
-:root{
-  --bg:#f5f7fa;
-  --panel:#ffffff;
-  --accent:#3b82f6;
-  --green:#10b981;
-  --muted:#6b7280;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Roboto',sans-serif;background:var(--bg);color:#0f1724;line-height:1.3}
-.app{display:flex;min-height:100vh}
-.sidebar{width:220px;background:#1e293b;color:white;padding:18px;display:flex;flex-direction:column;gap:8px;box-shadow:4px 0 12px rgba(2,6,23,0.08);position:sticky;top:0;height:100vh;}
-.sidebar a{color:#d1d5db;text-decoration:none;padding:10px;border-radius:10px;display:block;font-weight:600;cursor:pointer}
-.sidebar a:hover{background:var(--accent);color:#fff;transform:scale(1.02)}
-.main{flex:1;padding:22px;display:flex;flex-direction:column;gap:18px}
-.page-header{text-align:center}
-.page-header h1{font-size:28px;margin:0}
-.page-header p{color:var(--muted);margin:6px 0 0}
-.panel, .simple-panel{background:var(--panel);padding:18px;border-radius:14px;box-shadow:0 8px 20px rgba(2,6,23,0.05)}
-.catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
-.product-card{background:#f8fafc;border:1px solid #e6eef6;border-radius:12px;padding:12px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .12s ease, box-shadow .12s ease;}
-.product-card:hover{transform:translateY(-6px);box-shadow:0 10px 18px rgba(2,6,23,0.06)}
-.product-img{width:100%;max-width:150px;height:110px;object-fit:contain;border-radius:8px;margin-bottom:8px;background:#fff;padding:6px}
-.product-title{font-weight:600;color:#0b1220;margin:6px 0;font-size:15px}
-.product-price{font-weight:700;margin-bottom:8px}
-.product-card input[type=number]{width:60px;padding:4px 6px;margin-bottom:8px;border-radius:6px;border:1px solid #ccc;text-align:center}
-.product-card select{padding:4px 6px;border-radius:6px;border:1px solid #ccc;margin-bottom:8px}
-.product-card button{background:var(--accent);color:#fff;border:0;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:700}
-.product-card button:hover{background:#2563eb}
-.order-area{display:grid;grid-template-columns:1fr 320px;gap:16px}
-.order-list{display:flex;flex-direction:column;gap:10px;max-height:320px;overflow:auto;padding-right:6px}
-.order-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:#f1f5f9}
-.order-item .left{display:flex;gap:8px;align-items:center}
-.thumb-small{width:56px;height:48px;object-fit:cover;border-radius:8px;background:#fff;padding:4px}
-.qty-controls{display:flex;gap:6px;align-items:center}
-.qty-controls button{background:var(--accent);color:#fff;border:0;padding:6px 8px;border-radius:8px;font-weight:700;cursor:pointer}
-.delete-btn{background:#ef4444;padding:6px 8px;border-radius:8px;color:#fff;border:0;cursor:pointer}
-.order-right{display:flex;flex-direction:column;gap:12px}
-#preview{background:#d1fae5;padding:12px;border-radius:10px;font-family:monospace;min-height:110px;color:#065f46;white-space:pre-line}
-#totalPedido{font-weight:800;font-size:18px}
-#sendButton{background:var(--green);color:#fff;border:0;padding:12px;border-radius:12px;font-weight:800;cursor:pointer}
-#sendButton:hover{background:#059669}
-.contact-row{display:flex;gap:10px;align-items:center;margin-bottom:6px}
-.whatsapp-float{position:fixed;right:18px;bottom:80px;background:#25D366;color:#fff;width:60px;height:60px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 18px rgba(0,0,0,0.18);cursor:pointer;z-index:999}
-.whatsapp-float:hover{transform:translateY(-3px)}
-#searchInput{width:100%;padding:8px 12px;border-radius:8px;border:1px solid #ccc;margin-bottom:12px;font-size:14px}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Colmado Sinay — Móvil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="theme-color" content="#0ea5a4">
+  <style>
+    :root{
+      --bg:#f7fafc; --card:#ffffff; --muted:#6b7280; --accent:#0ea5a4; --accent-strong:#058f87; --danger:#ef4444;
+      --radius:14px; --gap:12px; --touch:48px;
+    }
+    /* Mobile-first */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{font-family:'Inter',system-ui,Segoe UI,Roboto,Arial; margin:0;background:var(--bg); color:#0f1724; -webkit-font-smoothing:antialiased}
 
-/* ===== MOVILES ===== */
-@media (max-width:980px){
-  .sidebar{display:none}
-  .order-area{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #fff;
-    border-top: 1px solid #ccc;
-    padding: 10px;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
-    z-index: 999;
-    grid-template-columns: 1fr;
-  }
-  .order-list{max-height:150px; overflow-y:auto;}
-  .order-right{flex-direction:row; justify-content:space-between; align-items:center;}
-  #preview{display:none;}
-}
-@media (max-width:420px){
-  .product-img{max-width:120px;height:90px}
-  .product-card{padding:8px;font-size:13px}
-}
-</style>
+    header{position:sticky;top:0;background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.85));backdrop-filter: blur(6px);border-bottom:1px solid rgba(2,6,23,0.04);padding:10px 14px;display:flex;gap:10px;align-items:center;z-index:40}
+    .brand{display:flex;gap:10px;align-items:center}
+    .logo{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+    h1.brand-title{font-size:16px;margin:0}
+    .search-wrap{flex:1}
+    .search{width:100%;height:40px;border-radius:10px;border:1px solid rgba(2,6,23,0.06);padding:8px 12px;font-size:15px}
+
+    main{padding:12px;padding-bottom:120px}
+    .top-actions{display:flex;gap:8px;margin-bottom:10px}
+    .chip{background:#fff;padding:8px 12px;border-radius:999px;border:1px solid rgba(2,6,23,0.04);font-weight:600;font-size:13px}
+
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .card{background:var(--card);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px;align-items:center;box-shadow:0 6px 18px rgba(2,6,23,0.03)}
+    .card img{width:100%;height:120px;object-fit:cover;border-radius:8px;background:#f3f4f6}
+    .name{font-weight:700;font-size:14px;text-align:center}
+    .price{font-weight:800;color:var(--accent);font-size:14px}
+
+    .controls{display:flex;gap:8px;width:100%;align-items:center}
+    .qty{display:inline-flex;align-items:center;background:rgba(0,0,0,0.03);border-radius:8px;padding:4px}
+    .qty button{width:34px;height:34px;border-radius:8px;border:0;background:transparent;font-weight:700;cursor:pointer}
+    .qty span{min-width:28px;text-align:center;display:inline-block}
+    .add-btn{flex:1;padding:10px;border-radius:10px;background:var(--accent);color:#fff;border:0;font-weight:800;cursor:pointer}
+    .add-btn:active{transform:translateY(1px)}
+
+    /* Floating cart (compact) */
+    .cart-bar{position:fixed;left:12px;right:12px;bottom:12px;background:linear-gradient(90deg,#ffffff,#fbffff);border-radius:12px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 14px 40px rgba(2,6,23,0.12);z-index:60;border:1px solid rgba(2,6,23,0.06)}
+    .cart-left{display:flex;align-items:center;gap:10px}
+    .cart-count{background:var(--accent);color:#fff;padding:8px;border-radius:10px;font-weight:800;min-width:40px;text-align:center}
+    .cart-total{font-weight:800}
+    .cart-actions{display:flex;gap:8px;align-items:center}
+    .secondary-btn{background:transparent;border:1px solid rgba(2,6,23,0.06);padding:8px 12px;border-radius:10px}
+    .primary-btn{background:var(--accent);color:#fff;border:0;padding:10px 14px;border-radius:10px;font-weight:800}
+
+    /* Modal cart */
+    .overlay{position:fixed;inset:0;background:rgba(2,6,23,0.45);display:none;align-items:flex-end;z-index:70}
+    .drawer{background:var(--card);border-top-left-radius:16px;border-top-right-radius:16px;padding:14px;max-height:80vh;overflow:auto;width:100%}
+    .drawer h3{margin:0 0 8px}
+    .cart-list{display:flex;flex-direction:column;gap:8px}
+    .cart-item{display:flex;gap:10px;align-items:center;background:#f8fafc;padding:8px;border-radius:10px}
+    .ci-img{width:64px;height:56px;object-fit:cover;border-radius:8px;background:#fff}
+    .ci-info{flex:1}
+    .ci-name{font-weight:700}
+    .ci-meta{color:var(--muted);font-size:13px}
+    .ci-actions{display:flex;gap:6px;align-items:center}
+
+    footer.small{font-size:12px;color:var(--muted);text-align:center;padding:14px}
+
+    /* Responsive tweaks for larger screens */
+    @media(min-width:900px){
+      main{padding:24px}
+      .grid{grid-template-columns:repeat(4,1fr)}
+      .card img{height:140px}
+      .cart-bar{left:24px;right:24px;bottom:24px}
+    }
+  </style>
 </head>
 <body>
-<div class="app">
-  <aside class="sidebar">
-    <a onclick="showSection('catalogo')"><i class="fa fa-box-open"></i> Catálogo</a>
-    <a onclick="showSection('ofertas')"><i class="fa fa-tags"></i> Ofertas</a>
-    <a onclick="showSection('contacto')"><i class="fa fa-address-book"></i> Contacto</a>
-  </aside>
-
-  <main class="main">
-    <header class="page-header">
-      <h1>🛒 Colmado Sinay</h1>
-      <p>Haz tu pedido fácil, rápido y seguro — pide por WhatsApp</p>
-    </header>
-
-    <input type="text" id="searchInput" placeholder="Buscar productos..." oninput="filtrarProductos()">
-
-    <section id="catalogo" class="panel">
-      <div class="catalog-grid" id="catalogGrid"></div>
-    </section>
-
-    <div class="panel" style="margin-top:14px">
-      <div class="order-area">
-        <div>
-          <h3 style="margin-top:0">🧾 Tu pedido</h3>
-          <div class="order-list" id="listaContainer"></div>
-          <div style="margin-top:8px">
-            <button onclick="vaciarPedido()" style="background:#ef4444;color:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer">Vaciar pedido</button>
-          </div>
-        </div>
-
-        <aside class="order-right">
-          <div id="totalPedido">Total: RD$0</div>
-          <button id="sendButton" onclick="enviarWhatsApp()">📲 Enviar por WhatsApp</button>
-        </aside>
+  <header>
+    <div class="brand">
+      <div class="logo">CS</div>
+      <div>
+        <h1 class="brand-title">Colmado Sinay</h1>
+        <div style="font-size:12px;color:var(--muted)">Pide fácil y rápido — RD</div>
       </div>
     </div>
+
+    <div class="search-wrap">
+      <input id="search" class="search" placeholder="Buscar productos o categorías..." inputmode="search">
+    </div>
+  </header>
+
+  <main>
+    <div class="top-actions">
+      <div class="chip" data-cat="all">Todos</div>
+      <div class="chip" data-cat="pan">Pan</div>
+      <div class="chip" data-cat="bebida">Bebidas</div>
+      <div class="chip" data-cat="aseo">Aseo</div>
+    </div>
+
+    <section id="catalog" class="grid" aria-live="polite"></section>
+
+    <div style="height:36px"></div>
+
+    <footer class="small">Toque un producto para ver opciones — Imágenes cargan de forma diferida para ahorrar datos móviles.</footer>
   </main>
-</div>
 
-<div class="whatsapp-float" title="Pedir por WhatsApp" onclick="enviarWhatsApp()">
-  <i class="fab fa-whatsapp"></i>
-</div>
+  <!-- Cart bar -->
+  <div class="cart-bar" role="region" aria-label="Carrito">
+    <div class="cart-left">
+      <div class="cart-count" id="cartCount">0</div>
+      <div>
+        <div style="font-size:12px;color:var(--muted)">Tu pedido</div>
+        <div class="cart-total" id="cartTotal">RD$0</div>
+      </div>
+    </div>
+    <div class="cart-actions">
+      <button class="secondary-btn" id="viewCart">Ver</button>
+      <button class="primary-btn" id="sendWpp">Enviar</button>
+    </div>
+  </div>
 
-<script>
-const productos = [
-  {id:'pan_redondo',nombre:'Pan redondo',precio:{funda:60,unidad:5},img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNcXnja8AnODbQa6LMUB5mMy7Zdq5U4zPaWA&s',opciones:['funda','unidad'],tipo:'entero'},
-  {id:'pan_larguito',nombre:'Pan larguito',precio:{funda:60,unidad:5},img:'https://www.lapulga.com.do/f/7204262-1.jpg',opciones:['funda','unidad'],tipo:'entero'},
-  {id:'pan_2bandas',nombre:'Pan dos bandas',precio:{funda:60,unidad:5},img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCRUgquxxNJH_KApCnJTwq-txWah1IWe3kpFoB5NpKGD9y2eGDn_9TzyJ05VnJEZzlgek&usqp=CAU',opciones:['funda','unidad'],tipo:'entero'},
-  {id:'huevos',nombre:'Huevos',precio:8,img:'https://thumbs.dreamstime.com/b/huevos-blancos-10840357.jpg',opciones:['unidad'],tipo:'entero'},
-  {id:'listamil_1l',nombre:'Leche Listamil 1L',precio:95,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwFtS9jXVoR5zYPqyJHNxRiT_nU4TA7kxNREa1vQukMEt1IeEmC_LGYgIzZi4k9Y95oMc&usqp=CAU',opciones:['unidad'],tipo:'entero'},
-  {id:'listamil_05l',nombre:'Leche Listamil 0.5L',precio:55,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvnlVZtDq7g1rFhAqWS16OlV1NVpCrUKaVxg&s',opciones:['unidad'],tipo:'entero'},
-  {id:'sopita_donagallina',nombre:'Sopita Doña Gallina',precio:9,img:'https://static.wixstatic.com/media/9e2d61_004a7f2baebf429f9cb05e2792ab9337~mv2.png/v1/fit/w_500,h_500,q_90/file.png',opciones:['unidad'],tipo:'entero'},
-  {id:'sopita_criollito',nombre:'Sopita Criollito',precio:8,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZjFX0wk3YqxwEbnPaWc37fCLn3F1e4IO8KA&s',opciones:['unidad'],tipo:'entero'},
-  {id:'gustosita',nombre:'Gustosita',precio:5,img:'https://www.frankordonezrd.com/wp-content/uploads/2024/02/Tableta-Final-Gustosita-1024x835.webp',opciones:['unidad'],tipo:'entero'},
-  {id:'donagallina_roja',nombre:'Doña Gallina roja',precio:9,img:'https://colmadi.com/wp-content/uploads/2024/02/Sopita-en-Cubo-de-Tomate-Dona-Gallina.png',opciones:['unidad'],tipo:'entero'},
-  {id:'mallonesa_sobre',nombre:'Mallonesa sobre',precio:15,img:'https://static.compreloadomicilio.com/almacenmachito/products/06444/604b81778f80d401069839.webp',opciones:['unidad'],tipo:'entero'},
-  {id:'cachu_sobre',nombre:'Cachu sobre',precio:15,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfdV2fB3wJ7Lm74pyjWEHf8to44MdDtx1faA&s',opciones:['unidad'],tipo:'entero'},
-  {id:'gallinita',nombre:'Gallinita',precio:9,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl6RmXkEDhQjFzsXKFLalH1q1n4ejl-7wNCQ&s',opciones:['unidad'],tipo:'entero'},
-  {id:'cocoa',nombre:'Cocoa',precio:15,img:'https://colmadi.com/wp-content/uploads/2024/01/Cocoa-Sobrino-510x510.png',opciones:['unidad'],tipo:'entero'},
-  {id:'guandule_verde_coco',nombre:'Guandule verde con coco',precio:150,img:'https://colmadi.com/wp-content/uploads/2023/08/GuandulesVerdesconCocoLaFamosa15oz-510x510.jpg',opciones:['unidad'],tipo:'entero'},
-  {id:'guandule_verde',nombre:'Guandule verde sin coco',precio:110,img:'https://colmadi.com/wp-content/uploads/2023/08/GuandulesVerdesLaFamosa15Oz-510x510.jpg',opciones:['unidad'],tipo:'entero'},
-  {id:'arroz',nombre:'Arroz',precio:75,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMZgk0qsi1018vBP1EFaGScsShnDSllU2pXg&s',opciones:['lb'],tipo:'decimal'},
-  {id:'aguacate',nombre:'Aguacate',precio:1,img:'https://fruttissimo.com.do/wp-content/uploads/2020/10/aguacate2.jpg',opciones:['unidad'],tipo:'entero'},
-  {id:'limon',nombre:'Limón',precio:1,img:'',opciones:['unidad'],tipo:'entero'},
-  {id:'rexona_rosado',nombre:'Rexona Rosado',precio:90,img:'https://assets-sirenago.s3-us-west-1.amazonaws.com/product/large/00/00/0b/27/76bc50a65bc145a2c53ea638fd975a74.jpg',opciones:['unidad'],tipo:'entero'},
-  {id:'rexona_amarillo',nombre:'Rexona Amarillo',precio:80,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2MC3fiPwJ_eZGmOlkSBBbj3Lgz476PgSxaQ&s',opciones:['unidad'],tipo:'entero'},
-  {id:'crema_ponds',nombre:'Crema Ponds Rosada',precio:195,img:'https://jumbo.com.do/pub/media/catalog/product/cache/5d91a1aa0232de6a069aae492eab5701/2/0/2020346-A_1.jpg',opciones:['unidad'],tipo:'entero'},
-  {id:'vinagre_ranchero',nombre:'Vinagre Ranchero',precio:50,img:'https://assets-sirenago.s3-us-west-1.amazonaws.com/product/original/00/00/0e/69/83421f6bebb2a03b8e8f09d554849bc2.png',opciones:['unidad'],tipo:'entero'},
-  {id:'aceite_crisol_peq',nombre:'Aceite Crisol Pequeño',precio:60,img:'https://do9uy4stciz2v.cloudfront.net/-Mk2olrjepwccC7R1eDF/products_600/-Nji9KEsTfgJUIcsOzUv.jpg',opciones:['unidad'],tipo:'entero'},
-  {id:'aceite_crisol_med',nombre:'Aceite Crisol Mediano',precio:110,img:'https://green.com.do/wp-content/uploads/2020/06/CRISOL-16-OZ-1.png',opciones:['unidad'],tipo:'entero'},
-  {id:'aceite_crisol_galon',nombre:'Aceite Crisol Galón Pequeño',precio:345,img:'https://d37orfp70tellf.cloudfront.net/wp-content/uploads/2016/09/11000220/CRISOL-128-OZ-1.png',opciones:['unidad'],tipo:'entero'},
-  {id:'aceite_crisol_jumbo',nombre:'Aceite Crisol Jumbo Grande',precio:650,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhPBAAS_vwVtuWnBREpC5_fDDlu7FJRn6-LQ&s',opciones:['unidad'],tipo:'entero'},
-  {id:'limon', nombre:'Limón', precio:1, img:'https://www.herbazest.com/imgs/0/1/a/851921/limon.jpg', opciones:['unidad'], tipo:'entero'},
-  {id:'maltamorena', nombre:'Maltamorena', precio:50, img:'https://img.plazalama.com.do/309fd322-ac4d-4306-1dd2-021183bb2000/width=500,height=500', opciones:['unidad'], tipo:'entero'},
-  {id:'kolareal_10', nombre:'Kola Real 200ml', precio:10, img:'https://elsuplidorrd.com/wp-content/uploads/2022/03/Kola-Real-Uva-200mL-pk24.jpg', opciones:['unidad'], tipo:'entero'},
-  {id:'kolareal_15', nombre:'Kola Real 1.5L', precio:15, img:'https://elsuplidorrd.com/wp-content/uploads/2022/12/Kola-Litro-y-Medio-negro-pk6.jpg', opciones:['unidad'], tipo:'entero'},
-  {id:'kolareal_25', nombre:'Kola Real 2.5L', precio:25, img:'https://static.compreloadomicilio.com/supermercadoisaric/products/01478/6050d5c0ce671071304167.webp', opciones:['unidad'], tipo:'entero'},
-  {id:'kolareal_50', nombre:'Kola Real 1L', precio:50, img:'https://vocatus.com.do/web/image/product.template/21755/image_512/Kola%20Real%20Rojo%201000Ml?unique=6a184c6', opciones:['unidad'], tipo:'entero'},
-  {id:'kolareal_90', nombre:'Kola Real 900ml', precio:90, img:'https://assets-sirenago.s3-us-west-1.amazonaws.com/product/large/00/00/09/fc/82995977b378a69ab143b0e64d26810b.png', opciones:['unidad'], tipo:'entero'},
-  {id:'vinagre_10', nombre:'Vinagre pequeño', precio:10, img:'https://cdn.quicksell.co/-Mk2olrjepwccC7R1eDF/products/-NpyJf8_mYHYbvGVL0s8.jpg', opciones:['unidad'], tipo:'entero'},
-  {id:'tomate', nombre:'Tomate', precio:1, img:'https://i0.wp.com/rnn.com.do/wp-content/uploads/2022/05/tomate-1024x680-1.jpg?fit=1024%2C680&ssl=1', opciones:['unidad'], tipo:'entero'},
-  {id:'salsa_bella', nombre:'Salsa Bella', precio:15, img:'https://i0.wp.com/elsuplidorrd.com/wp-content/uploads/2022/09/Pasta-de-Tomate-Bella-en-Sobre-2oz-pk12.jpg?fit=570%2C331&ssl=1', opciones:['unidad'], tipo:'entero'},
-  {id:'chocolate_embajador', nombre:'Chocolate Embajador', precio:13, img:'https://i0.wp.com/elsuplidorrd.com/wp-content/uploads/2025/07/17515562568992871431598009027668-scaled.jpg?fit=1183%2C2560&ssl=1', opciones:['unidad'], tipo:'entero'},
-  {id:'cafe_sobre', nombre:'Café tinto de sobre', precio:25, img:'https://do9uy4stciz2v.cloudfront.net/-Mk2olrjepwccC7R1eDF/products_600/-NLwFWpRJNwjNjBvDhaI.jpg', opciones:['unidad'], tipo:'entero'},
-  {id:'cafe_05lb', nombre:'Café tinto 1/2 lb', precio:175, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRexh3w14MoaUhqJA3wsVFKM3zxCyXjHhBxug&s', opciones:['unidad'], tipo:'entero'},
-  {id:'cafe_1lb', nombre:'Café tinto 1 lb', precio:350, img:'https://www.induban.com/media/zoo/images/cafe-tinto_52e715654cecb61aae1705bfb5b8bfc6.png', opciones:['unidad'], tipo:'entero'},
-  {id:'cafe_ideal', nombre:'Café Ideal', precio:25, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj6bOvRSwigU_aHhkFQi48hmWfHsOFFWhcg17GtKZHEAFN7gpCjbloZwazfGcH0VPLYos&usqp=CAU', opciones:['unidad'], tipo:'entero'},
-  {id:'aceite_bella', nombre:'Aceite Bella sobre', precio:25, img:'https://elsuplidorrd.com/wp-content/uploads/2022/09/Aceite-Linda-en-Sobre-4oz-pk10.jpg', opciones:['unidad'], tipo:'entero'},
-  {id:'sal_refrisal_sobre', nombre:'Sal Refrisal sobre', precio:15, img:'https://assets-sirenago.s3-us-west-1.amazonaws.com/product/original/00/00/04/9b/c063a6438649a43baebd5d5db42174d5.jpg', opciones:['unidad'], tipo:'entero'},
-  {id:'sal_refrisal_pote', nombre:'Sal Refrisal pote pequeño', precio:35, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMmjNPxx0CzFWrJYnpqhRBQJokTaoMVK6imA&s', opciones:['unidad'], tipo:'entero'},
-  {id:'desodorina_grande', nombre:'Desodorina grande', precio:90, img:'https://img.plazalama.com.do/c0f43c74-680f-4701-f588-a9d7104f9c00/base', opciones:['unidad'], tipo:'entero'},
-  {id:'desodorina_peq', nombre:'Desodorina pequeña', precio:25, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaoA5qXz09DQXupjLhCyEuaGm-TqoqZa1bnA&s', opciones:['unidad'], tipo:'entero'},
-  {id:'vinagre_blanco', nombre:'Vinagre blanco', precio:60, img:'https://baldom.com.do/wp-content/uploads/2020/08/1209-Vinagre-Blanco-24-16_1.jpg', opciones:['unidad'], tipo:'entero'},
-  {id:'arroz_campos_1lb', nombre:'Arroz Campos 1 lb', precio:75, img:'https://eloiusimportexport.com.do/wp-content/uploads/2023/12/Arroz-Campos-1-LB.jpeg', opciones:['unidad'], tipo:'entero'},
-  {id:'jugo_ya_naranja', nombre:'Jugo Ya Naranja', precio:15, img:'https://buydominicansnacks.com/cdn/shop/files/Naranja_Ya_jugo_instantaneo_dominicano.jpg?v=1721933902&width=1445', opciones:['unidad'], tipo:'entero'},
-  {id:'jugo_ya_pina', nombre:'Jugo Ya Piña', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd6-VJ9zEw0w9E7bCquOlXfj23l2-tSDinNg&s', opciones:['unidad'], tipo:'entero'},
-  {id:'jugo_ya_limon', nombre:'Jugo Ya Limón', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOfDX_yZXhGlx790HgnUjoRDqeXx3y1FjO2g&s', opciones:['unidad'], tipo:'entero'},
-  {id:'jugo_ya_guanabana', nombre:'Jugo Ya Guanábana', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYb9g0n78QVI7ZdgZYVDDhOFXzhVxz7EQZoA&s', opciones:['unidad'], tipo:'entero'},
-  {id:'juvena_naranja', nombre:'Juvena Naranja', precio:20, img:'https://cdn.quicksell.co/-Mk2olrjepwccC7R1eDF/products/-N7JF9ZllrlWemituY3C.jpg', opciones:['unidad'], tipo:'entero'},
-  {id:'jugo_ya_chinola', nombre:'Jugo Ya Chinola', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV7lJfIf65kkIa5EOE58gqgRb857n4j1ljwA&s', opciones:['unidad'], tipo:'entero'}
+  <!-- Drawer modal -->
+  <div class="overlay" id="overlay">
+    <div class="drawer" role="dialog" aria-modal="true">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h3>Tu carrito</h3>
+        <button class="secondary-btn" id="closeDrawer">Cerrar</button>
+      </div>
+      <div class="cart-list" id="cartList"></div>
+      <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:800">Total: <span id="drawerTotal">RD$0</span></div>
+        <div style="display:flex;gap:8px">
+          <button class="secondary-btn" id="clearCart">Vaciar</button>
+          <button class="primary-btn" id="checkoutWpp">Pedir por WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ========== CONFIG ========== */
+    // Cambia este número por tu WhatsApp (formato internacional, sin + ni espacios):
+    const WHATSAPP_PHONE = '18496239976';
+
+    // Si ya tienes tu arreglo productos, reemplaza PRODUCT_DATA con tu fuente
+    // Para no saturar el HTML, aquí incluyo una muestra y el código está preparado
+    // para aceptar arrays más largos.
+    const PRODUCT_DATA = [
+  {id:'pan_redondo', nombre:'Pan redondo', precio:5, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNcXnja8AnODbQa6LMUB5mMy7Zdq5U4zPaWA&s', categoria:'pan'},
+  {id:'pan_larguito', nombre:'Pan larguito', precio:5, img:'https://www.lapulga.com.do/f/7204262-1.jpg', categoria:'pan'},
+  {id:'pan_2bandas', nombre:'Pan dos bandas', precio:5, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCRUgquxxNJH_KApCnJTwq-txWah1IWe3kpFoB5NpKGD9y2eGDn_9TzyJ05VnJEZzlgek&usqp=CAU', categoria:'pan'},
+  {id:'huevos', nombre:'Huevos x1', precio:8, img:'https://thumbs.dreamstime.com/b/huevos-blancos-10840357.jpg', categoria:'comida'},
+  {id:'listamil_1l', nombre:'Leche Listamil 1L', precio:95, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwFtS9jXVoR5zYPqyJHNxRiT_nU4TA7kxNREa1vQukMEt1IeEmC_LGYgIzZi4k9Y95oMc&usqp=CAU', categoria:'bebida'},
+  {id:'listamil_05l', nombre:'Leche Listamil 0.5L', precio:55, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvnlVZtDq7g1rFhAqWS16OlV1NVpCrUKaVxg&s', categoria:'bebida'},
+  {id:'sopita_donagallina', nombre:'Sopita Doña Gallina', precio:9, img:'https://static.wixstatic.com/media/9e2d61_004a7f2baebf429f9cb05e2792ab9337~mv2.png/v1/fit/w_500,h_500,q_90/file.png', categoria:'comida'},
+  {id:'sopita_criollito', nombre:'Sopita Criollito', precio:8, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZjFX0wk3YqxwEbnPaWc37fCLn3F1e4IO8KA&s', categoria:'comida'},
+  {id:'gustosita', nombre:'Gustosita', precio:5, img:'https://www.frankordonezrd.com/wp-content/uploads/2024/02/Tableta-Final-Gustosita-1024x835.webp', categoria:'comida'},
+  {id:'donagallina_roja', nombre:'Doña Gallina roja', precio:9, img:'https://colmadi.com/wp-content/uploads/2024/02/Sopita-en-Cubo-de-Tomate-Dona-Gallina.png', categoria:'comida'},
+  {id:'mallonesa_sobre', nombre:'Mayonesa sobre', precio:15, img:'https://static.compreloadomicilio.com/almacenmachito/products/06444/604b81778f80d401069839.webp', categoria:'comida'},
+  {id:'cachu_sobre', nombre:'Cachu sobre', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfdV2fB3wJ7Lm74pyjWEHf8to44MdDtx1faA&s', categoria:'comida'},
+  {id:'gallinita', nombre:'Gallinita', precio:9, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl6RmXkEDhQjFzsXKFLalH1q1n4ejl-7wNCQ&s', categoria:'comida'},
+  {id:'cocoa', nombre:'Cocoa', precio:15, img:'https://colmadi.com/wp-content/uploads/2024/01/Cocoa-Sobrino-510x510.png', categoria:'bebida'},
+  {id:'guandule_verde_coco', nombre:'Guandule verde con coco', precio:150, img:'https://colmadi.com/wp-content/uploads/2023/08/GuandulesVerdesconCocoLaFamosa15oz-510x510.jpg', categoria:'comida'},
+  {id:'guandule_verde', nombre:'Guandule verde sin coco', precio:110, img:'https://colmadi.com/wp-content/uploads/2023/08/GuandulesVerdesLaFamosa15Oz-510x510.jpg', categoria:'comida'},
+  {id:'arroz', nombre:'Arroz 1 lb', precio:75, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMZgk0qsi1018vBP1EFaGScsShnDSllU2pXg&s', categoria:'comida'},
+  {id:'aguacate', nombre:'Aguacate', precio:1, img:'https://fruttissimo.com.do/wp-content/uploads/2020/10/aguacate2.jpg', categoria:'fruta'},
+  {id:'limon', nombre:'Limón', precio:1, img:'https://www.herbazest.com/imgs/0/1/a/851921/limon.jpg', categoria:'fruta'},
+  {id:'rexona_rosado', nombre:'Rexona Rosado', precio:90, img:'https://assets-sirenago.s3-us-west-1.amazonaws.com/product/large/00/00/0b/27/76bc50a65bc145a2c53ea638fd975a74.jpg', categoria:'cuidado'},
+  {id:'rexona_amarillo', nombre:'Rexona Amarillo', precio:80, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2MC3fiPwJ_eZGmOlkSBBbj3Lgz476PgSxaQ&s', categoria:'cuidado'},
+  {id:'crema_ponds', nombre:'Crema Ponds Rosada', precio:195, img:'https://jumbo.com.do/pub/media/catalog/product/cache/5d91a1aa0232de6a069aae492eab5701/2/0/2020346-A_1.jpg', categoria:'cuidado'},
+  {id:'vinagre_ranchero', nombre:'Vinagre Ranchero', precio:50, img:'https://assets-sirenago.s3-us-west-1.amazonaws.com/product/original/00/00/0e/69/83421f6bebb2a03b8e8f09d554849bc2.png', categoria:'comida'},
+  {id:'aceite_crisol_peq', nombre:'Aceite Crisol Pequeño', precio:60, img:'https://do9uy4stciz2v.cloudfront.net/-Mk2olrjepwccC7R1eDF/products_600/-Nji9KEsTfgJUIcsOzUv.jpg', categoria:'comida'},
+  {id:'aceite_crisol_med', nombre:'Aceite Crisol Mediano', precio:110, img:'https://green.com.do/wp-content/uploads/2020/06/CRISOL-16-OZ-1.png', categoria:'comida'},
+  {id:'aceite_crisol_galon', nombre:'Aceite Crisol Galón Pequeño', precio:345, img:'https://d37orfp70tellf.cloudfront.net/wp-content/uploads/2016/09/11000220/CRISOL-128-OZ-1.png', categoria:'comida'},
+  {id:'aceite_crisol_jumbo', nombre:'Aceite Crisol Jumbo Grande', precio:650, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhPBAAS_vwVtuWnBREpC5_fDDlu7FJRn6-LQ&s', categoria:'comida'},
+  {id:'maltamorena', nombre:'Maltamorena', precio:50, img:'https://img.plazalama.com.do/309fd322-ac4d-4306-1dd2-021183bb2000/width=500,height=500', categoria:'bebida'},
+  {id:'kolareal_10', nombre:'Kola Real 200ml', precio:10, img:'https://elsuplidorrd.com/wp-content/uploads/2022/03/Kola-Real-Uva-200mL-pk24.jpg', categoria:'bebida'},
+  {id:'kolareal_15', nombre:'Kola Real 1.5L', precio:15, img:'https://elsuplidorrd.com/wp-content/uploads/2022/12/Kola-Litro-y-Medio-negro-pk6.jpg', categoria:'bebida'},
+  {id:'kolareal_25', nombre:'Kola Real 2.5L', precio:25, img:'https://static.compreloadomicilio.com/supermercadoisaric/products/01478/6050d5c0ce671071304167.webp', categoria:'bebida'},
+  {id:'kolareal_50', nombre:'Kola Real 1L', precio:50, img:'https://vocatus.com.do/web/image/product.template/21755/image_512/Kola%20Real%20Rojo%201000Ml?unique=6a184c6', categoria:'bebida'},
+  {id:'kolareal_90', nombre:'Kola Real 900ml', precio:90, img:'https://assets-sirenago.s3-us-west-1.amazonaws.com/product/large/00/00/09/fc/82995977b378a69ab143b0e64d26810b.png', categoria:'bebida'},
+  {id:'vinagre_10', nombre:'Vinagre pequeño', precio:10, img:'https://cdn.quicksell.co/-Mk2olrjepwccC7R1eDF/products/-NpyJf8_mYHYbvGVL0s8.jpg', categoria:'comida'},
+  {id:'tomate', nombre:'Tomate', precio:1, img:'https://i0.wp.com/rnn.com.do/wp-content/uploads/2022/05/tomate-1024x680-1.jpg?fit=1024%2C680&ssl=1', categoria:'fruta'},
+  {id:'salsa_bella', nombre:'Salsa Bella', precio:15, img:'https://i0.wp.com/elsuplidorrd.com/wp-content/uploads/2022/09/Pasta-de-Tomate-Bella-en-Sobre-2oz-pk12.jpg?fit=570%2C331&ssl=1', categoria:'comida'},
+  {id:'chocolate_embajador', nombre:'Chocolate Embajador', precio:13, img:'https://i0.wp.com/elsuplidorrd.com/wp-content/uploads/2025/07/17515562568992871431598009027668-scaled.jpg?fit=1183%2C2560&ssl=1', categoria:'comida'},
+  {id:'cafe_sobre', nombre:'Café tinto de sobre', precio:25, img:'https://do9uy4stciz2v.cloudfront.net/-Mk2olrjepwccC7R1eDF/products_600/-NLwFWpRJNwjNjBvDhaI.jpg', categoria:'bebida'},
+  {id:'cafe_05lb', nombre:'Café tinto 1/2 lb', precio:175, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRexh3w14MoaUhqJA3wsVFKM3zxCyXjHhBxug&s', categoria:'bebida'},
+  {id:'cafe_1lb', nombre:'Café tinto 1 lb', precio:350, img:'https://www.induban.com/media/zoo/images/cafe-tinto_52e715654cecb61aae1705bfb5b8bfc6.png', categoria:'bebida'},
+  {id:'cafe_ideal', nombre:'Café Ideal', precio:25, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj6bOvRSwigU_aHhkFQi48hmWfHsOFFWhcg17GtKZHEAFN7gpCjbloZwazfGcH0VPLYos&usqp=CAU', categoria:'bebida'},
+  {id:'aceite_bella', nombre:'Aceite Bella sobre', precio:25, img:'https://elsuplidorrd.com/wp-content/uploads/2022/09/Aceite-Linda-en-Sobre-4oz-pk10.jpg', categoria:'comida'},
+  {id:'sal_refrisal_sobre', nombre:'Sal Refrisal sobre', precio:15, img:'https://assets-sirenago.s3-us-west-1.amazonaws.com/product/original/00/00/04/9b/c063a6438649a43baebd5d5db42174d5.jpg', categoria:'comida'},
+  {id:'sal_refrisal_pote', nombre:'Sal Refrisal pote pequeño', precio:35, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMmjNPxx0CzFWrJYnpqhRBQJokTaoMVK6imA&s', categoria:'comida'},
+  {id:'desodorina_grande', nombre:'Desodorina grande', precio:90, img:'https://img.plazalama.com.do/c0f43c74-680f-4701-f588-a9d7104f9c00/base', categoria:'cuidado'},
+  {id:'desodorina_peq', nombre:'Desodorina pequeña', precio:25, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaoA5qXz09DQXupjLhCyEuaGm-TqoqZa1bnA&s', categoria:'cuidado'},
+  {id:'vinagre_blanco', nombre:'Vinagre blanco', precio:60, img:'https://baldom.com.do/wp-content/uploads/2020/08/1209-Vinagre-Blanco-24-16_1.jpg', categoria:'comida'},
+  {id:'arroz_campos_1lb', nombre:'Arroz Campos 1 lb', precio:75, img:'https://eloiusimportexport.com.do/wp-content/uploads/2023/12/Arroz-Campos-1-LB.jpeg', categoria:'comida'},
+  {id:'jugo_ya_naranja', nombre:'Jugo Ya Naranja', precio:15, img:'https://buydominicansnacks.com/cdn/shop/files/Naranja_Ya_jugo_instantaneo_dominicano.jpg?v=1721933902&width=1445', categoria:'bebida'},
+  {id:'jugo_ya_pina', nombre:'Jugo Ya Piña', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd6-VJ9zEw0w9E7bCquOlXfj23l2-tSDinNg&s', categoria:'bebida'},
+  {id:'jugo_ya_limon', nombre:'Jugo Ya Limón', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOfDX_yZXhGlx790HgnUjoRDqeXx3y1FjO2g&s', categoria:'bebida'},
+  {id:'jugo_ya_guanabana', nombre:'Jugo Ya Guanábana', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYb9g0n78QVI7ZdgZYVDDhOFXzhVxz7EQZoA&s', categoria:'bebida'},
+  {id:'juvena_naranja', nombre:'Juvena Naranja', precio:20, img:'https://cdn.quicksell.co/-Mk2olrjepwccC7R1eDF/products/-N7JF9ZllrlWemituY3C.jpg', categoria:'bebida'},
+  {id:'jugo_ya_chinola', nombre:'Jugo Ya Chinola', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV7lJfIf65kkIa5EOE58gqgRb857n4j1ljwA&s', categoria:'bebida'}
 ];
 
 
-let listaProductos = [];
+    /* ========== STATE ========== */
+    const catalogEl = document.getElementById('catalog');
+    const searchInput = document.getElementById('search');
+    const cartCountEl = document.getElementById('cartCount');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const overlay = document.getElementById('overlay');
+    const cartListEl = document.getElementById('cartList');
+    const drawerTotalEl = document.getElementById('drawerTotal');
 
-const catalogGrid = document.getElementById('catalogGrid');
-const listaContainer = document.getElementById('listaContainer');
-const totalPedidoEl = document.getElementById('totalPedido');
+    let products = PRODUCT_DATA.slice(); // copia segura
+    let cart = JSON.parse(localStorage.getItem('colmado_cart')||'[]');
 
-function construirCatalogo(){
-  productos.forEach(prod=>{
-    const card=document.createElement('div');
-    card.className='product-card';
-    card.dataset.nombre=prod.nombre.toLowerCase();
-    card.innerHTML=`<img src="${prod.img}" class="product-img" alt="${prod.nombre}">
-    <div class="product-title">${prod.nombre}</div>
-    <div class="product-price">RD$${typeof prod.precio==='number'?prod.precio:Object.values(prod.precio)[0]}</div>
-    ${prod.opciones.length>1?`<select>${prod.opciones.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>`:''}
-    <input type="number" min="1" value="1">
-    <button onclick="agregarAlPedido('${prod.id}',this)">Agregar</button>`;
-    catalogGrid.appendChild(card);
-  });
-}
+    /* ========== UTIL ========== */
+    function formatMoney(n){ return 'RD$'+Number(n).toLocaleString('es-DO'); }
+    function saveCart(){ localStorage.setItem('colmado_cart', JSON.stringify(cart)); }
 
-function agregarAlPedido(id,btn){
-  const prod=productos.find(p=>p.id===id);
-  const card=btn.parentElement;
-  const cant=parseInt(card.querySelector('input').value);
-  const opcion=card.querySelector('select')?card.querySelector('select').value:prod.opciones[0];
-  if(cant<=0){alert('Ingresa cantidad válida'); return;}
-  const precioUnit = typeof prod.precio==='number'?prod.precio:prod.precio[opcion];
-  listaProductos.push({producto:prod.nombre,cantidad:cant,unit:opcion,precio:precioUnit* cant,tipo:prod.tipo,img:prod.img});
-  renderLista();
-}
+    /* ========== RENDER CATALOG ========== */
+    function buildCard(p){
+      const card = document.createElement('article');
+      card.className='card';
+      card.innerHTML = `
+        <img loading="lazy" src="${p.img||'https://via.placeholder.com/400x300?text=Imagen'}" alt="${p.nombre}">
+        <div class="name">${p.nombre}</div>
+        <div class="price">${formatMoney(p.precio)}</div>
+        <div class="controls">
+          <div class="qty" aria-hidden>
+            <button data-op="dec">-</button>
+            <span data-qty>1</span>
+            <button data-op="inc">+</button>
+          </div>
+          <button class="add-btn">Agregar</button>
+        </div>`;
 
-function renderLista(){
-  listaContainer.innerHTML='';
-  let total=0;
-  listaProductos.forEach((item,index)=>{
-    total+=item.precio;
-    const div=document.createElement('div');
-    div.className='order-item';
-    div.innerHTML=`<div class="left"><img src="${item.img}" class="thumb-small">
-      <div>${item.producto}<br>RD$${item.precio}</div></div>
-      <div class="qty-controls">
-        <button onclick="cambiarCantidad(${index},-1)">-</button>
-        <span>${item.cantidad}</span>
-        <button onclick="cambiarCantidad(${index},1)">+</button>
-        <button class="delete-btn" onclick="eliminarProducto(${index})">X</button>
-      </div>`;
-    listaContainer.appendChild(div);
-  });
-  totalPedidoEl.textContent='Total: RD$'+total;
-}
+      // Attach handlers
+      const dec = card.querySelector('[data-op="dec"]');
+      const inc = card.querySelector('[data-op="inc"]');
+      const qtyEl = card.querySelector('[data-qty]');
+      const addBtn = card.querySelector('.add-btn');
 
-function cambiarCantidad(index,delta){
-  const item=listaProductos[index];
-  if(item.tipo==='entero') item.cantidad=Math.max(1,item.cantidad+delta);
-  else item.cantidad=Math.max(0.1,(item.cantidad+delta));
-  item.precio=item.cantidad*(productos.find(p=>p.nombre===item.producto).precio[ item.unit ] || productos.find(p=>p.nombre===item.producto).precio);
-  renderLista();
-}
+      dec.addEventListener('click', ()=>{ qtyEl.textContent = Math.max(1, Number(qtyEl.textContent)-1); });
+      inc.addEventListener('click', ()=>{ qtyEl.textContent = Number(qtyEl.textContent)+1; });
+      addBtn.addEventListener('click', ()=>{ addToCart(p, Number(qtyEl.textContent)); });
 
-function eliminarProducto(index){ listaProductos.splice(index,1); renderLista(); }
-function vaciarPedido(){ if(confirm('Vaciar todo el pedido?')){ listaProductos=[]; renderLista();} }
+      return card;
+    }
 
-function enviarWhatsApp(){
-  if(listaProductos.length===0){ alert('Agrega productos primero.'); return; }
-  let mensaje='Hola, quiero hacer mi pedido:\n';
-  listaProductos.forEach(item=>{
-    mensaje+=`${item.producto} - Cantidad: ${item.cantidad} ${item.unit} - RD$${item.precio}\n`;
-  });
-  const total = listaProductos.reduce((a,b)=>a+b.precio,0);
-  mensaje += `\nTotal a pagar: RD$${total}`;
-  const numero='+18496239976';
-  const url=`https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
-  window.open(url,'_blank');
-}
+    function renderCatalog(list){
+      catalogEl.innerHTML='';
+      const frag = document.createDocumentFragment();
+      list.forEach(p=>frag.appendChild(buildCard(p)));
+      catalogEl.appendChild(frag);
+    }
 
-function filtrarProductos(){
-  const valor=document.getElementById('searchInput').value.toLowerCase();
-  catalogGrid.childNodes.forEach(card=>{
-    if(card.dataset.nombre.includes(valor)) card.style.display='flex';
-    else card.style.display='none';
-  });
-}
+    /* ========== CART ========== */
+    function getCartTotals(){
+      let total = 0, count = 0;
+      cart.forEach(i=>{ total += i.precio * i.cantidad; count += i.cantidad; });
+      return {total,count};
+    }
 
-function showSection(id){
-  const sections=['catalogo','ofertas','contacto'];
-  sections.forEach(s=>{
-    const el=document.getElementById(s);
-    if(el) el.style.display=(s===id)?'block':'none';
-  });
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+    function updateCartBar(){
+      const t = getCartTotals();
+      cartCountEl.textContent = t.count;
+      cartTotalEl.textContent = formatMoney(t.total);
+      drawerTotalEl.textContent = formatMoney(t.total);
+    }
 
-construirCatalogo();
-renderLista();
-</script>
+    function addToCart(product, cantidad=1){
+      const idx = cart.findIndex(i=>i.id===product.id);
+      if(idx>-1) { cart[idx].cantidad += cantidad; }
+      else { cart.push({id:product.id,nombre:product.nombre,precio:product.precio,cantidad,codigo:product.id,img:product.img}); }
+      saveCart(); updateCartBar(); flashAdd();
+    }
+
+    function flashAdd(){
+      const el = document.querySelector('.cart-bar');
+      el.animate([{transform:'translateY(6px)'},{transform:'translateY(0)'}],{duration:220});
+    }
+
+    function renderCartDrawer(){
+      cartListEl.innerHTML='';
+      if(cart.length===0){ cartListEl.innerHTML='<div style="color:var(--muted);padding:18px;text-align:center">Tu carrito está vacío</div>'; return; }
+      cart.forEach((item,idx)=>{
+        const div = document.createElement('div'); div.className='cart-item';
+        div.innerHTML = `
+          <img class="ci-img" src="${item.img||'https://via.placeholder.com/120'}" loading="lazy" alt="${item.nombre}">
+          <div class="ci-info">
+            <div class="ci-name">${item.nombre}</div>
+            <div class="ci-meta">${formatMoney(item.precio)} • x${item.cantidad} = ${formatMoney(item.precio*item.cantidad)}</div>
+          </div>
+          <div class="ci-actions">
+            <button class="secondary-btn" data-action="dec-${idx}">-</button>
+            <div style="min-width:28px;text-align:center">${item.cantidad}</div>
+            <button class="secondary-btn" data-action="inc-${idx}">+</button>
+            <button class="secondary-btn" data-action="del-${idx}"><i class="fa fa-trash"></i></button>
+          </div>`;
+
+        cartListEl.appendChild(div);
+      });
+
+      // attach handlers
+      cartListEl.querySelectorAll('[data-action]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const [act, raw] = btn.getAttribute('data-action').split('-');
+          const index = Number(raw);
+          if(act==='dec'){ cart[index].cantidad = Math.max(1, cart[index].cantidad-1); }
+          if(act==='inc'){ cart[index].cantidad = cart[index].cantidad+1; }
+          if(act==='del'){ cart.splice(index,1); }
+          saveCart(); renderCartDrawer(); updateCartBar();
+        });
+      });
+    }
+
+    /* ========== EVENTS ========== */
+    document.getElementById('viewCart').addEventListener('click', ()=>{ overlay.style.display='flex'; renderCartDrawer(); });
+    document.getElementById('closeDrawer').addEventListener('click', ()=>{ overlay.style.display='none'; });
+    document.getElementById('clearCart').addEventListener('click', ()=>{ if(confirm('Vaciar carrito?')){ cart=[]; saveCart(); renderCartDrawer(); updateCartBar(); overlay.style.display='none'; } });
+
+    // Send Whatsapp
+    function buildWhatsAppMessage(){
+      if(cart.length===0) return null;
+      let lines = ['Hola 👋, quiero hacer el pedido:'];
+      cart.forEach(i=> lines.push(`${i.nombre} x${i.cantidad} — RD$${i.precio*i.cantidad}`));
+      const total = getCartTotals().total;
+      lines.push('Total: RD$'+total);
+      lines.push('Dirección:');
+      return encodeURIComponent(lines.join('\n'));
+    }
+
+    document.getElementById('sendWpp').addEventListener('click', ()=>{ const msg = buildWhatsAppMessage(); if(!msg){ alert('Tu carrito está vacío.'); return; } window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${msg}`,'_blank'); });
+    document.getElementById('checkoutWpp').addEventListener('click', ()=>{ const msg = buildWhatsAppMessage(); if(!msg){ alert('Tu carrito está vacío.'); return; } window.open(`https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${msg}`,'_blank'); });
+
+    /* ========== SEARCH & FILTER ========== */
+    function debounce(fn, wait=220){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), wait); }; }
+
+    function applyFilters(){
+      const q = searchInput.value.trim().toLowerCase();
+      const activeChip = document.querySelector('.chip.active');
+      const cat = activeChip ? activeChip.dataset.cat : 'all';
+      const filtered = products.filter(p=>{
+        const matchQ = !q || p.nombre.toLowerCase().includes(q) || (p.categoria||'').toLowerCase().includes(q);
+        const matchC = cat==='all' || (p.categoria||'')===cat;
+        return matchQ && matchC;
+      });
+      renderCatalog(filtered);
+    }
+
+    searchInput.addEventListener('input', debounce(applyFilters,200));
+    document.querySelectorAll('.chip').forEach(ch=>{
+      ch.addEventListener('click', ()=>{ document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); ch.classList.add('active'); applyFilters(); });
+    });
+
+    /* ========== INIT ========== */
+    renderCatalog(products);
+    updateCartBar();
+
+    // accessibility: close overlay on outside click
+    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) overlay.style.display='none'; });
+
+    // Allow replacing product list via global var (if you want to inject from server)
+    window.replaceProducts = function(newList){ products = newList.slice(); renderCatalog(products); };
+
+    // If you have the big productos array, you can call `replaceProducts(productos)` from console or embed after this file.
+  </script>
 </body>
 </html>
