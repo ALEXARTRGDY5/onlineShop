@@ -7,246 +7,254 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <style>
-/* Reset básico */
-* { box-sizing: border-box; margin:0; padding:0; }
-body { font-family:'Roboto',sans-serif; background:#f5f7fa; color:#0f1724; line-height:1.4; }
-html, body { height: 100%; }
-
-/* Layout principal */
-.app { display:flex; min-height:100vh; gap:0; }
-.sidebar {
-  width:220px;
-  background:#1e293b;
-  color:white;
-  display:flex;
-  flex-direction:column;
-  padding:20px;
-  gap:10px;
-  box-shadow: 4px 0 12px rgba(2,6,23,0.08);
-  position: sticky;
-  top:0;
-}
-.sidebar a {
-  color:#d1d5db; text-decoration:none; padding:12px; border-radius:10px; display:block; font-weight:500; transition: all 0.2s ease;
-}
-.sidebar a:hover { background:#3b82f6; color:#fff; transform:scale(1.05); }
-
-.main { flex:1; padding:26px; display:flex; flex-direction:column; gap:20px; }
-
-/* Cabecera */
-.page-header { text-align:center; margin-bottom:20px; }
-.page-header h1 { font-size:32px; color:#0b1220; margin-bottom:6px; }
-.page-header p { color:#475569; font-size:16px; }
-
-/* Panel principal */
-.panel {
-  background:#ffffff;
-  padding:20px;
-  border-radius:16px;
-  box-shadow:0 8px 20px rgba(2,6,23,0.05);
-}
-
-/* Formulario de productos */
-.input-section {
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  justify-content:center;
-  margin-bottom:16px;
-}
-input[type="text"], input[type="number"] {
-  flex:1;
-  min-width:140px;
-  padding:12px 14px;
-  border-radius:12px;
-  border:1px solid #e2e8f0;
-  font-size:15px;
-}
-input:focus { outline:none; border-color:#3b82f6; box-shadow:0 0 8px rgba(59,130,246,0.3); }
-
-button {
-  cursor:pointer;
-  border:none;
-  border-radius:12px;
-  padding:12px 16px;
-  font-weight:700;
-  transition: all 0.2s ease;
-}
-#addButton { background:#3b82f6; color:#fff; }
-#addButton:hover { background:#2563eb; transform:scale(1.05); }
-
-#sendButton {
-  background:#10b981;
-  color:#fff;
-  font-size:18px;
-  padding:14px;
-  border-radius:14px;
-  width:100%;
-  font-weight:700;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  transition: all 0.2s ease;
-}
-#sendButton:hover { background:#059669; transform:scale(1.03); }
-
-/* Lista de productos */
-.lista-compras { display:flex; flex-direction:column; gap:12px; max-height:300px; overflow-y:auto; }
-.item {
-  background:#f8fafc;
-  padding:12px 16px;
-  border-radius:12px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 3px 8px rgba(2,6,23,0.03);
-  transition: all 0.2s ease;
-}
-.item:hover { background:#e0f2fe; transform:translateY(-2px); }
-.actions { display:flex; gap:8px; align-items:center; }
-.qty-btn { background:#3b82f6; color:#fff; padding:6px 10px; border-radius:8px; font-weight:700; }
-.delete-btn { background:#ef4444; color:#fff; padding:6px 10px; border-radius:8px; }
-
-/* Preview de mensaje */
-#preview {
-  background:#d1fae5;
-  padding:14px;
-  border-radius:12px;
-  font-family:monospace;
-  min-height:100px;
-  white-space:pre-line;
-  color:#065f46;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);
-}
-
-/* Paneles simples para Ofertas / Contacto */
-.simple-panel { margin-top:12px; border-radius:16px; padding:16px; background:#fff; box-shadow:0 6px 20px rgba(2,6,23,0.04); }
-
-/* Responsivo */
-@media (max-width:768px) {
-  .app { flex-direction:column; }
-  .sidebar { width:100%; flex-direction:row; justify-content:space-around; padding:12px 6px; }
-  .sidebar h2 { display:none; }
-  .main { padding:18px; }
-}
-@media (max-width:420px) {
-  .input-section { flex-direction:column; align-items:stretch; }
-  #sendButton { width:100%; }
-}
+:root{--bg:#f5f7fa;--panel:#ffffff;--accent:#3b82f6;--green:#10b981;--muted:#6b7280;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Roboto',sans-serif;background:var(--bg);color:#0f1724;line-height:1.3}
+.app{display:flex;min-height:100vh}
+.sidebar{width:220px;background:#1e293b;color:white;padding:18px;display:flex;flex-direction:column;gap:8px;box-shadow:4px 0 12px rgba(2,6,23,0.08);position:sticky;top:0;height:100vh;}
+.sidebar a{color:#d1d5db;text-decoration:none;padding:10px;border-radius:10px;display:block;font-weight:600;cursor:pointer}
+.sidebar a:hover{background:var(--accent);color:#fff;transform:scale(1.02)}
+.main{flex:1;padding:22px;display:flex;flex-direction:column;gap:18px}
+.page-header{text-align:center}
+.page-header h1{font-size:28px;margin:0}
+.page-header p{color:var(--muted);margin:6px 0 0}
+.panel, .simple-panel{background:var(--panel);padding:18px;border-radius:14px;box-shadow:0 8px 20px rgba(2,6,23,0.05)}
+.catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.product-card{background:#f8fafc;border:1px solid #e6eef6;border-radius:12px;padding:12px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .12s ease, box-shadow .12s ease;}
+.product-card:hover{transform:translateY(-6px);box-shadow:0 10px 18px rgba(2,6,23,0.06)}
+.product-img{width:100%;max-width:150px;height:110px;object-fit:contain;border-radius:8px;margin-bottom:8px;background:#fff;padding:6px}
+.product-title{font-weight:600;color:#0b1220;margin:6px 0;font-size:15px}
+.product-price{font-weight:700;margin-bottom:8px}
+.product-card input[type=number]{width:60px;padding:4px 6px;margin-bottom:8px;border-radius:6px;border:1px solid #ccc;text-align:center}
+.product-card select{padding:4px 6px;border-radius:6px;border:1px solid #ccc;margin-bottom:8px}
+.product-card button{background:var(--accent);color:#fff;border:0;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:700}
+.product-card button:hover{background:#2563eb}
+.order-area{display:grid;grid-template-columns:1fr 320px;gap:16px}
+.order-list{display:flex;flex-direction:column;gap:10px;max-height:320px;overflow:auto;padding-right:6px}
+.order-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:#f1f5f9}
+.order-item .left{display:flex;gap:8px;align-items:center}
+.thumb-small{width:56px;height:48px;object-fit:cover;border-radius:8px;background:#fff;padding:4px}
+.qty-controls{display:flex;gap:6px;align-items:center}
+.qty-controls button{background:var(--accent);color:#fff;border:0;padding:6px 8px;border-radius:8px;font-weight:700;cursor:pointer}
+.delete-btn{background:#ef4444;padding:6px 8px;border-radius:8px;color:#fff;border:0;cursor:pointer}
+.order-right{display:flex;flex-direction:column;gap:12px}
+#preview{background:#d1fae5;padding:12px;border-radius:10px;font-family:monospace;min-height:110px;color:#065f46;white-space:pre-line}
+#totalPedido{font-weight:800;font-size:18px}
+#sendButton{background:var(--green);color:#fff;border:0;padding:12px;border-radius:12px;font-weight:800;cursor:pointer}
+#sendButton:hover{background:#059669}
+.contact-row{display:flex;gap:10px;align-items:center;margin-bottom:6px}
+.whatsapp-float{position:fixed;right:18px;bottom:18px;background:#25D366;color:#fff;width:60px;height:60px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 8px 18px rgba(0,0,0,0.18);cursor:pointer;z-index:999}
+.whatsapp-float:hover{transform:translateY(-3px)}
+#searchInput{width:100%;padding:8px 12px;border-radius:8px;border:1px solid #ccc;margin-bottom:12px;font-size:14px}
+@media (max-width:980px){ .order-area{grid-template-columns:1fr} .sidebar{display:none} }
+@media (max-width:420px){ .product-img{max-width:120px;height:90px} }
 </style>
 </head>
 <body>
-
 <div class="app">
   <aside class="sidebar">
-    <a onclick="showSection('inicio')"><i class="fa fa-home"></i> Inicio</a>
+    <a onclick="showSection('catalogo')"><i class="fa fa-box-open"></i> Catálogo</a>
     <a onclick="showSection('ofertas')"><i class="fa fa-tags"></i> Ofertas</a>
     <a onclick="showSection('contacto')"><i class="fa fa-address-book"></i> Contacto</a>
   </aside>
 
   <main class="main">
-    <div class="page-header">
+    <header class="page-header">
       <h1>🛒 Colmado Sinay</h1>
-      <p>Agrega productos con cantidad y envía tu pedido por WhatsApp</p>
+      <p>Haz tu pedido fácil, rápido y seguro — pide por WhatsApp</p>
+    </header>
+
+    <input type="text" id="searchInput" placeholder="Buscar productos..." oninput="filtrarProductos()">
+
+    <section id="catalogo" class="panel">
+      <div class="catalog-grid" id="catalogGrid"></div>
+    </section>
+
+    <div class="panel" style="margin-top:14px">
+      <div class="order-area">
+        <div>
+          <h3 style="margin-top:0">🧾 Tu pedido</h3>
+          <div class="order-list" id="listaContainer"></div>
+          <div style="margin-top:8px">
+            <button onclick="vaciarPedido()" style="background:#ef4444;color:#fff;border:0;padding:8px 12px;border-radius:8px;cursor:pointer">Vaciar pedido</button>
+          </div>
+        </div>
+
+        <aside class="order-right">
+          <div id="preview">Tu mensaje se verá aquí antes de enviar...</div>
+          <div id="totalPedido">Total: RD$0</div>
+          <button id="sendButton" onclick="enviarWhatsApp()">📲 Enviar por WhatsApp</button>
+        </aside>
+      </div>
     </div>
-
-    <section id="inicio" class="panel">
-      <div class="input-section">
-        <input type="text" id="productoInput" placeholder="Producto">
-        <input type="number" id="cantidadInput" placeholder="Cantidad" min="1" value="1">
-        <button id="addButton" onclick="agregarProducto()">➕ Agregar</button>
-      </div>
-
-      <div class="lista-compras" id="listaContainer"></div>
-      <div id="preview">Tu mensaje se verá aquí antes de enviar...</div>
-      <button id="sendButton" onclick="enviarWhatsApp()">📲 Enviar por WhatsApp</button>
-    </section>
-
-    <section id="ofertas" class="simple-panel" style="display:none;">
-      <h3>Ofertas</h3>
-      <p>Aquí publicaremos las ofertas pronto.</p>
-    </section>
-
-    <section id="contacto" class="simple-panel" style="display:none;">
-      <h3>Contacto</h3>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <div><i class="fa fa-phone"></i> Teléfono: +1 849-623-9976</div>
-        <div><i class="fa fa-map-marker-alt"></i> Dirección: La Quisqueya 2, República Dominicana</div>
-        <div><i class="fa fa-store"></i> Colmado Sinay</div>
-      </div>
-    </section>
   </main>
 </div>
 
-<script>
-function showSection(id){
-  document.getElementById('inicio').style.display = (id==='inicio')?'block':'none';
-  document.getElementById('ofertas').style.display = (id==='ofertas')?'block':'none';
-  document.getElementById('contacto').style.display = (id==='contacto')?'block':'none';
-}
+<div class="whatsapp-float" title="Pedir por WhatsApp" onclick="enviarWhatsApp()">
+  <i class="fab fa-whatsapp"></i>
+</div>
 
-const productoInput = document.getElementById('productoInput');
-const cantidadInput = document.getElementById('cantidadInput');
-const listaContainer = document.getElementById('listaContainer');
-const preview = document.getElementById('preview');
+<script>
+const productos = [
+  {id:'pan_redondo',nombre:'Pan redondo',precio:{funda:60,unidad:5},img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNcXnja8AnODbQa6LMUB5mMy7Zdq5U4zPaWA&s',opciones:['funda','unidad'],tipo:'entero'},
+  {id:'pan_larguito',nombre:'Pan larguito',precio:{funda:60,unidad:5},img:'https://www.lapulga.com.do/f/7204262-1.jpg',opciones:['funda','unidad'],tipo:'entero'},
+  {id:'pan_2bandas',nombre:'Pan dos bandas',precio:{funda:60,unidad:5},img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCRUgquxxNJH_KApCnJTwq-txWah1IWe3kpFoB5NpKGD9y2eGDn_9TzyJ05VnJEZzlgek&usqp=CAU',opciones:['funda','unidad'],tipo:'entero'},
+  {id:'huevos',nombre:'Huevos',precio:8,img:'https://thumbs.dreamstime.com/b/huevos-blancos-10840357.jpg',opciones:['unidad'],tipo:'entero'},
+  {id:'listamil_1l',nombre:'Leche Listamil 1L',precio:95,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwFtS9jXVoR5zYPqyJHNxRiT_nU4TA7kxNREa1vQukMEt1IeEmC_LGYgIzZi4k9Y95oMc&usqp=CAU',opciones:['unidad'],tipo:'entero'},
+  {id:'listamil_05l',nombre:'Leche Listamil 0.5L',precio:55,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvnlVZtDq7g1rFhAqWS16OlV1NVpCrUKaVxg&s',opciones:['unidad'],tipo:'entero'},
+  {id:'sopita_donagallina',nombre:'Sopita Doña Gallina',precio:9,img:'https://static.wixstatic.com/media/9e2d61_004a7f2baebf429f9cb05e2792ab9337~mv2.png/v1/fit/w_500,h_500,q_90/file.png',opciones:['unidad'],tipo:'entero'},
+  {id:'sopita_criollito',nombre:'Sopita Criollito',precio:8,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZjFX0wk3YqxwEbnPaWc37fCLn3F1e4IO8KA&s',opciones:['unidad'],tipo:'entero'},
+  {id:'gustosita',nombre:'Gustosita',precio:5,img:'https://www.frankordonezrd.com/wp-content/uploads/2024/02/Tableta-Final-Gustosita-1024x835.webp',opciones:['unidad'],tipo:'entero'},
+  {id:'donagallina_roja',nombre:'Doña Gallina roja',precio:9,img:'https://colmadi.com/wp-content/uploads/2024/02/Sopita-en-Cubo-de-Tomate-Dona-Gallina.png',opciones:['unidad'],tipo:'entero'},
+  {id:'mallonesa_sobre',nombre:'Mallonesa sobre',precio:15,img:'https://static.compreloadomicilio.com/almacenmachito/products/06444/604b81778f80d401069839.webp',opciones:['unidad'],tipo:'entero'},
+  {id:'cachu_sobre',nombre:'Cachu sobre',precio:15,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfdV2fB3wJ7Lm74pyjWEHf8to44MdDtx1faA&s',opciones:['unidad'],tipo:'entero'},
+  {id:'gallinita',nombre:'Gallinita',precio:9,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl6RmXkEDhQjFzsXKFLalH1q1n4ejl-7wNCQ&s',opciones:['unidad'],tipo:'entero'},
+  {id:'cocoa',nombre:'Cocoa',precio:15,img:'https://colmadi.com/wp-content/uploads/2024/01/Cocoa-Sobrino-510x510.png',opciones:['unidad'],tipo:'entero'},
+  {id:'guandule_verde_coco',nombre:'Guandule verde con coco',precio:150,img:'https://colmadi.com/wp-content/uploads/2023/08/GuandulesVerdesconCocoLaFamosa15oz-510x510.jpg',opciones:['unidad'],tipo:'entero'},
+  {id:'guandule_verde',nombre:'Guandule verde sin coco',precio:110,img:'https://colmadi.com/wp-content/uploads/2023/08/GuandulesVerdesLaFamosa15Oz-510x510.jpg',opciones:['unidad'],tipo:'entero'},
+  {id:'arroz',nombre:'Arroz',precio:75,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMZgk0qsi1018vBP1EFaGScsShnDSllU2pXg&s',opciones:['lb'],tipo:'decimal'},
+  {id:'aguacate',nombre:'Aguacate',precio:1,img:'https://fruttissimo.com.do/wp-content/uploads/2020/10/aguacate2.jpg',opciones:['unidad'],tipo:'entero'},
+  {id:'limon',nombre:'Limón',precio:1,img:'',opciones:['unidad'],tipo:'entero'},
+  {id:'rexona_rosado',nombre:'Rexona Rosado',precio:90,img:'https://assets-sirenago.s3-us-west-1.amazonaws.com/product/large/00/00/0b/27/76bc50a65bc145a2c53ea638fd975a74.jpg',opciones:['unidad'],tipo:'entero'},
+  {id:'rexona_amarillo',nombre:'Rexona Amarillo',precio:80,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2MC3fiPwJ_eZGmOlkSBBbj3Lgz476PgSxaQ&s',opciones:['unidad'],tipo:'entero'},
+  {id:'crema_ponds',nombre:'Crema Ponds Rosada',precio:195,img:'https://jumbo.com.do/pub/media/catalog/product/cache/5d91a1aa0232de6a069aae492eab5701/2/0/2020346-A_1.jpg',opciones:['unidad'],tipo:'entero'},
+  {id:'vinagre_ranchero',nombre:'Vinagre Ranchero',precio:50,img:'https://assets-sirenago.s3-us-west-1.amazonaws.com/product/original/00/00/0e/69/83421f6bebb2a03b8e8f09d554849bc2.png',opciones:['unidad'],tipo:'entero'},
+  {id:'aceite_crisol_peq',nombre:'Aceite Crisol Pequeño',precio:60,img:'https://do9uy4stciz2v.cloudfront.net/-Mk2olrjepwccC7R1eDF/products_600/-Nji9KEsTfgJUIcsOzUv.jpg',opciones:['unidad'],tipo:'entero'},
+  {id:'aceite_crisol_med',nombre:'Aceite Crisol Mediano',precio:110,img:'https://green.com.do/wp-content/uploads/2020/06/CRISOL-16-OZ-1.png',opciones:['unidad'],tipo:'entero'},
+  {id:'aceite_crisol_galon',nombre:'Aceite Crisol Galón Pequeño',precio:345,img:'https://d37orfp70tellf.cloudfront.net/wp-content/uploads/2016/09/11000220/CRISOL-128-OZ-1.png',opciones:['unidad'],tipo:'entero'},
+  {id:'aceite_crisol_jumbo',nombre:'Aceite Crisol Jumbo Grande',precio:650,img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhPBAAS_vwVtuWnBREpC5_fDDlu7FJRn6-LQ&s',opciones:['unidad'],tipo:'entero'},
+  {id:'limon', nombre:'Limón', precio:1, img:'https://www.herbazest.com/imgs/0/1/a/851921/limon.jpg', opciones:['unidad'], tipo:'entero'},
+  {id:'maltamorena', nombre:'Maltamorena', precio:50, img:'https://img.plazalama.com.do/309fd322-ac4d-4306-1dd2-021183bb2000/width=500,height=500', opciones:['unidad'], tipo:'entero'},
+  {id:'kolareal_10', nombre:'Kola Real 200ml', precio:10, img:'https://elsuplidorrd.com/wp-content/uploads/2022/03/Kola-Real-Uva-200mL-pk24.jpg', opciones:['unidad'], tipo:'entero'},
+  {id:'kolareal_15', nombre:'Kola Real 1.5L', precio:15, img:'https://elsuplidorrd.com/wp-content/uploads/2022/12/Kola-Litro-y-Medio-negro-pk6.jpg', opciones:['unidad'], tipo:'entero'},
+  {id:'kolareal_25', nombre:'Kola Real 2.5L', precio:25, img:'https://static.compreloadomicilio.com/supermercadoisaric/products/01478/6050d5c0ce671071304167.webp', opciones:['unidad'], tipo:'entero'},
+  {id:'kolareal_50', nombre:'Kola Real 1L', precio:50, img:'https://vocatus.com.do/web/image/product.template/21755/image_512/Kola%20Real%20Rojo%201000Ml?unique=6a184c6', opciones:['unidad'], tipo:'entero'},
+  {id:'kolareal_90', nombre:'Kola Real 900ml', precio:90, img:'https://assets-sirenago.s3-us-west-1.amazonaws.com/product/large/00/00/09/fc/82995977b378a69ab143b0e64d26810b.png', opciones:['unidad'], tipo:'entero'},
+  {id:'vinagre_10', nombre:'Vinagre pequeño', precio:10, img:'https://cdn.quicksell.co/-Mk2olrjepwccC7R1eDF/products/-NpyJf8_mYHYbvGVL0s8.jpg', opciones:['unidad'], tipo:'entero'},
+  {id:'tomate', nombre:'Tomate', precio:1, img:'https://i0.wp.com/rnn.com.do/wp-content/uploads/2022/05/tomate-1024x680-1.jpg?fit=1024%2C680&ssl=1', opciones:['unidad'], tipo:'entero'},
+  {id:'salsa_bella', nombre:'Salsa Bella', precio:15, img:'https://i0.wp.com/elsuplidorrd.com/wp-content/uploads/2022/09/Pasta-de-Tomate-Bella-en-Sobre-2oz-pk12.jpg?fit=570%2C331&ssl=1', opciones:['unidad'], tipo:'entero'},
+  {id:'chocolate_embajador', nombre:'Chocolate Embajador', precio:13, img:'https://i0.wp.com/elsuplidorrd.com/wp-content/uploads/2025/07/17515562568992871431598009027668-scaled.jpg?fit=1183%2C2560&ssl=1', opciones:['unidad'], tipo:'entero'},
+  {id:'cafe_sobre', nombre:'Café tinto de sobre', precio:25, img:'https://do9uy4stciz2v.cloudfront.net/-Mk2olrjepwccC7R1eDF/products_600/-NLwFWpRJNwjNjBvDhaI.jpg', opciones:['unidad'], tipo:'entero'},
+  {id:'cafe_05lb', nombre:'Café tinto 1/2 lb', precio:175, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRexh3w14MoaUhqJA3wsVFKM3zxCyXjHhBxug&s', opciones:['unidad'], tipo:'entero'},
+  {id:'cafe_1lb', nombre:'Café tinto 1 lb', precio:350, img:'https://www.induban.com/media/zoo/images/cafe-tinto_52e715654cecb61aae1705bfb5b8bfc6.png', opciones:['unidad'], tipo:'entero'},
+  {id:'cafe_ideal', nombre:'Café Ideal', precio:25, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj6bOvRSwigU_aHhkFQi48hmWfHsOFFWhcg17GtKZHEAFN7gpCjbloZwazfGcH0VPLYos&usqp=CAU', opciones:['unidad'], tipo:'entero'},
+  {id:'aceite_bella', nombre:'Aceite Bella sobre', precio:25, img:'https://elsuplidorrd.com/wp-content/uploads/2022/09/Aceite-Linda-en-Sobre-4oz-pk10.jpg', opciones:['unidad'], tipo:'entero'},
+  {id:'sal_refrisal_sobre', nombre:'Sal Refrisal sobre', precio:15, img:'https://assets-sirenago.s3-us-west-1.amazonaws.com/product/original/00/00/04/9b/c063a6438649a43baebd5d5db42174d5.jpg', opciones:['unidad'], tipo:'entero'},
+  {id:'sal_refrisal_pote', nombre:'Sal Refrisal pote pequeño', precio:35, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMmjNPxx0CzFWrJYnpqhRBQJokTaoMVK6imA&s', opciones:['unidad'], tipo:'entero'},
+  {id:'desodorina_grande', nombre:'Desodorina grande', precio:90, img:'https://img.plazalama.com.do/c0f43c74-680f-4701-f588-a9d7104f9c00/base', opciones:['unidad'], tipo:'entero'},
+  {id:'desodorina_peq', nombre:'Desodorina pequeña', precio:25, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaoA5qXz09DQXupjLhCyEuaGm-TqoqZa1bnA&s', opciones:['unidad'], tipo:'entero'},
+  {id:'vinagre_blanco', nombre:'Vinagre blanco', precio:60, img:'https://baldom.com.do/wp-content/uploads/2020/08/1209-Vinagre-Blanco-24-16_1.jpg', opciones:['unidad'], tipo:'entero'},
+  {id:'arroz_campos_1lb', nombre:'Arroz Campos 1 lb', precio:75, img:'https://eloiusimportexport.com.do/wp-content/uploads/2023/12/Arroz-Campos-1-LB.jpeg', opciones:['unidad'], tipo:'entero'},
+  {id:'jugo_ya_naranja', nombre:'Jugo Ya Naranja', precio:15, img:'https://buydominicansnacks.com/cdn/shop/files/Naranja_Ya_jugo_instantaneo_dominicano.jpg?v=1721933902&width=1445', opciones:['unidad'], tipo:'entero'},
+  {id:'jugo_ya_pina', nombre:'Jugo Ya Piña', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd6-VJ9zEw0w9E7bCquOlXfj23l2-tSDinNg&s', opciones:['unidad'], tipo:'entero'},
+  {id:'jugo_ya_limon', nombre:'Jugo Ya Limón', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOfDX_yZXhGlx790HgnUjoRDqeXx3y1FjO2g&s', opciones:['unidad'], tipo:'entero'},
+  {id:'jugo_ya_guanabana', nombre:'Jugo Ya Guanábana', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYb9g0n78QVI7ZdgZYVDDhOFXzhVxz7EQZoA&s', opciones:['unidad'], tipo:'entero'},
+  {id:'juvena_naranja', nombre:'Juvena Naranja', precio:20, img:'https://cdn.quicksell.co/-Mk2olrjepwccC7R1eDF/products/-N7JF9ZllrlWemituY3C.jpg', opciones:['unidad'], tipo:'entero'},
+  {id:'jugo_ya_chinola', nombre:'Jugo Ya Chinola', precio:15, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV7lJfIf65kkIa5EOE58gqgRb857n4j1ljwA&s', opciones:['unidad'], tipo:'entero'}
+];
+
 let listaProductos = [];
 
-function agregarProducto() {
-  const producto = productoInput.value.trim();
-  const cantidad = parseInt(cantidadInput.value,10);
-  if(!producto || !cantidad || cantidad<=0){alert("Ingresa un producto válido y su cantidad.");return;}
-  listaProductos.push({producto,cantidad});
+const catalogGrid = document.getElementById('catalogGrid');
+const listaContainer = document.getElementById('listaContainer');
+const preview = document.getElementById('preview');
+const totalPedidoEl = document.getElementById('totalPedido');
+
+function construirCatalogo(){
+  productos.forEach(prod=>{
+    const card=document.createElement('div');
+    card.className='product-card';
+    card.dataset.nombre=prod.nombre.toLowerCase();
+    card.innerHTML=`<img src="${prod.img}" class="product-img" alt="${prod.nombre}">
+    <div class="product-title">${prod.nombre}</div>
+    <div class="product-price">RD$${typeof prod.precio==='number'?prod.precio:Object.values(prod.precio)[0]}</div>
+    ${prod.opciones.length>1?`<select>${prod.opciones.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>`:''}
+    <input type="number" min="1" value="1">
+    <button onclick="agregarAlPedido('${prod.id}',this)">Agregar</button>`;
+    catalogGrid.appendChild(card);
+  });
+}
+
+function agregarAlPedido(id,btn){
+  const prod=productos.find(p=>p.id===id);
+  const card=btn.parentElement;
+  const cant=parseInt(card.querySelector('input').value);
+  const opcion=card.querySelector('select')?card.querySelector('select').value:prod.opciones[0];
+  if(cant<=0){alert('Ingresa cantidad válida'); return;}
+  const precioUnit = typeof prod.precio==='number'?prod.precio:prod.precio[opcion];
+  listaProductos.push({producto:prod.nombre,cantidad:cant,unit:opcion,precio:precioUnit* cant,tipo:prod.tipo,img:prod.img});
   renderLista();
-  productoInput.value=''; cantidadInput.value=1;
 }
 
 function renderLista(){
   listaContainer.innerHTML='';
+  let total=0;
   listaProductos.forEach((item,index)=>{
+    total+=item.precio;
     const div=document.createElement('div');
-    div.className='item';
-    div.innerHTML=`<span>${escapeHtml(item.producto)}</span>
-    <div class="actions">
-      <button class="qty-btn" onclick="cambiarCantidad(${index},-1)">-</button>
-      <span style="min-width:26px;text-align:center;display:inline-block">${item.cantidad}</span>
-      <button class="qty-btn" onclick="cambiarCantidad(${index},1)">+</button>
-      <button class="delete-btn" onclick="eliminarProducto(${index})">X</button>
-    </div>`;
+    div.className='order-item';
+    div.innerHTML=`<div class="left"><img src="${item.img}" class="thumb-small">
+      <div>${item.producto}<br>RD$${item.precio}</div></div>
+      <div class="qty-controls">
+        <button onclick="cambiarCantidad(${index},-1)">-</button>
+        <span>${item.cantidad}</span>
+        <button onclick="cambiarCantidad(${index},1)">+</button>
+        <button class="delete-btn" onclick="eliminarProducto(${index})">X</button>
+      </div>`;
     listaContainer.appendChild(div);
   });
-  actualizarPreview();
+  totalPedidoEl.textContent='Total: RD$'+total;
+  actualizarPreview(total);
 }
 
 function cambiarCantidad(index,delta){
-  if(!listaProductos[index])return;
-  listaProductos[index].cantidad+=delta;
-  if(listaProductos[index].cantidad<1) listaProductos[index].cantidad=1;
+  const item=listaProductos[index];
+  if(item.tipo==='entero') item.cantidad=Math.max(1,item.cantidad+delta);
+  else item.cantidad=Math.max(0.1,(item.cantidad+delta));
+  item.precio=item.cantidad*(productos.find(p=>p.nombre===item.producto).precio[ item.unit ] || productos.find(p=>p.nombre===item.producto).precio);
   renderLista();
 }
 
 function eliminarProducto(index){ listaProductos.splice(index,1); renderLista(); }
+function vaciarPedido(){ if(confirm('Vaciar todo el pedido?')){ listaProductos=[]; renderLista();} }
 
-function actualizarPreview(){
-  if(listaProductos.length===0){ preview.textContent="Tu mensaje se verá aquí antes de enviar..."; return;}
-  let mensaje="Hola, quiero hacer mi pedido con esta lista:\n";
-  listaProductos.forEach(item=>{mensaje+=`${item.producto} - Cantidad: ${item.cantidad}\n`;});
+function actualizarPreview(total){
+  if(listaProductos.length===0){ preview.textContent='Tu mensaje se verá aquí antes de enviar...'; return; }
+  let mensaje='Hola, quiero hacer mi pedido:\n';
+  listaProductos.forEach(item=>{
+    mensaje+=`${item.producto} - Cantidad: ${item.cantidad} ${item.unit} - RD$${item.precio}\n`;
+  });
+  mensaje += `\nTotal a pagar: RD$${total}`;
   preview.textContent=mensaje;
 }
 
 function enviarWhatsApp(){
-  if(listaProductos.length===0){alert("Agrega productos a tu lista primero.");return;}
-  const numero="+18496239976";
+  if(listaProductos.length===0){ alert('Agrega productos primero.'); return; }
+  const numero='+18496239976';
   const mensaje=preview.textContent;
   const url=`https://api.whatsapp.com/send?phone=${numero}&text=${encodeURIComponent(mensaje)}`;
-  window.open(url,"_blank");
+  window.open(url,'_blank');
 }
 
-function escapeHtml(text){
-  const map={'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'};
-  return text.replace(/[&<>"']/g,m=>map[m]);
+function filtrarProductos(){
+  const valor=document.getElementById('searchInput').value.toLowerCase();
+  catalogGrid.childNodes.forEach(card=>{
+    if(card.dataset.nombre.includes(valor)) card.style.display='flex';
+    else card.style.display='none';
+  });
 }
+
+function showSection(id){
+  const sections=['catalogo','ofertas','contacto'];
+  sections.forEach(s=>{
+    const el=document.getElementById(s);
+    if(el) el.style.display=(s===id)?'block':'none';
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+construirCatalogo();
+renderLista();
 </script>
-
 </body>
 </html>
