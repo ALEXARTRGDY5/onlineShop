@@ -6,17 +6,16 @@
 <title>Colmado Sinay - Tienda Online</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-
 <style>
 /* Reset básico */
 * { box-sizing: border-box; margin:0; padding:0; }
 body { font-family:'Roboto',sans-serif; background:#f5f7fa; color:#0f1724; line-height:1.4; }
 html, body { height: 100%; }
 
-/* Layout principal: sidebar + main */
-.app { display: flex; min-height: 100vh; gap: 0; }
+/* Layout principal */
+.app { display:flex; min-height:100vh; gap:0; }
 .sidebar {
-  width: 220px;
+  width:220px;
   background:#1e293b;
   color:white;
   display:flex;
@@ -24,101 +23,105 @@ html, body { height: 100%; }
   padding:20px;
   gap:10px;
   box-shadow: 4px 0 12px rgba(2,6,23,0.08);
+  position: sticky;
+  top:0;
 }
-.sidebar h2 { font-size:20px; color:#3b82f6; text-align:center; margin-bottom:6px; }
 .sidebar a {
-  color:#d1d5db; text-decoration:none; padding:10px; border-radius:8px; display:block; font-weight:500;
+  color:#d1d5db; text-decoration:none; padding:12px; border-radius:10px; display:block; font-weight:500; transition: all 0.2s ease;
 }
-.sidebar a:hover { background:#374151; color:#fff; }
+.sidebar a:hover { background:#3b82f6; color:#fff; transform:scale(1.05); }
 
-.main {
-  flex:1;
-  padding:26px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  overflow:auto;
-}
+.main { flex:1; padding:26px; display:flex; flex-direction:column; gap:20px; }
 
-/* Cabecera y descripción */
-.page-header { text-align:center; margin-bottom:10px; }
-.page-header h1 { font-size:28px; color:#0b1220; margin-bottom:6px; }
-.page-header p { color:#475569; margin-bottom:12px; }
+/* Cabecera */
+.page-header { text-align:center; margin-bottom:20px; }
+.page-header h1 { font-size:32px; color:#0b1220; margin-bottom:6px; }
+.page-header p { color:#475569; font-size:16px; }
 
 /* Panel principal */
 .panel {
   background:#ffffff;
-  padding:18px;
-  border-radius:12px;
-  box-shadow:0 6px 18px rgba(2,6,23,0.05);
+  padding:20px;
+  border-radius:16px;
+  box-shadow:0 8px 20px rgba(2,6,23,0.05);
 }
 
-/* Formulario y lista de compras */
+/* Formulario de productos */
 .input-section {
   display:flex;
   gap:10px;
   flex-wrap:wrap;
-  margin-bottom:12px;
   justify-content:center;
+  margin-bottom:16px;
 }
 input[type="text"], input[type="number"] {
   flex:1;
   min-width:140px;
-  padding:10px 12px;
-  border-radius:10px;
+  padding:12px 14px;
+  border-radius:12px;
   border:1px solid #e2e8f0;
   font-size:15px;
 }
-input:focus { outline:none; border-color:#3b82f6; }
+input:focus { outline:none; border-color:#3b82f6; box-shadow:0 0 8px rgba(59,130,246,0.3); }
 
 button {
   cursor:pointer;
   border:none;
-  border-radius:10px;
-  padding:10px 14px;
+  border-radius:12px;
+  padding:12px 16px;
   font-weight:700;
-  transition: background 0.15s ease;
+  transition: all 0.2s ease;
 }
 #addButton { background:#3b82f6; color:#fff; }
-#addButton:hover { background:#2563eb; }
-#sendButton { background:#10b981; color:#fff; margin-top:12px; width:100%; }
-#sendButton:hover { background:#059669; }
+#addButton:hover { background:#2563eb; transform:scale(1.05); }
 
-.lista-compras {
-  margin-top:10px;
+#sendButton {
+  background:#10b981;
+  color:#fff;
+  font-size:18px;
+  padding:14px;
+  border-radius:14px;
+  width:100%;
+  font-weight:700;
   display:flex;
-  flex-direction:column;
-  gap:8px;
-  max-height:260px;
-  overflow-y:auto;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  transition: all 0.2s ease;
 }
+#sendButton:hover { background:#059669; transform:scale(1.03); }
+
+/* Lista de productos */
+.lista-compras { display:flex; flex-direction:column; gap:12px; max-height:300px; overflow-y:auto; }
 .item {
   background:#f8fafc;
-  padding:10px 12px;
-  border-radius:10px;
+  padding:12px 16px;
+  border-radius:12px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  box-shadow:0 2px 6px rgba(2,6,23,0.03);
+  box-shadow:0 3px 8px rgba(2,6,23,0.03);
+  transition: all 0.2s ease;
 }
+.item:hover { background:#e0f2fe; transform:translateY(-2px); }
 .actions { display:flex; gap:8px; align-items:center; }
-.qty-btn { background:#3b82f6; color:#fff; padding:6px 9px; border-radius:8px; font-weight:700; }
-.delete-btn { background:#ef4444; color:#fff; padding:6px 9px; border-radius:8px; }
+.qty-btn { background:#3b82f6; color:#fff; padding:6px 10px; border-radius:8px; font-weight:700; }
+.delete-btn { background:#ef4444; color:#fff; padding:6px 10px; border-radius:8px; }
 
+/* Preview de mensaje */
 #preview {
   background:#d1fae5;
-  padding:12px;
-  border-radius:10px;
-  margin-top:12px;
+  padding:14px;
+  border-radius:12px;
   font-family:monospace;
-  min-height:80px;
+  min-height:100px;
   white-space:pre-line;
   color:#065f46;
   box-shadow: inset 0 1px 3px rgba(0,0,0,0.03);
 }
 
 /* Paneles simples para Ofertas / Contacto */
-.simple-panel { margin-top:12px; border-radius:12px; padding:14px; background:#fff; box-shadow:0 6px 16px rgba(2,6,23,0.04); }
+.simple-panel { margin-top:12px; border-radius:16px; padding:16px; background:#fff; box-shadow:0 6px 20px rgba(2,6,23,0.04); }
 
 /* Responsivo */
 @media (max-width:768px) {
@@ -137,18 +140,18 @@ button {
 
 <div class="app">
   <aside class="sidebar">
-    <a onclick="showSection('inicio')">Inicio</a>
-    <a onclick="showSection('ofertas')">Ofertas</a>
-    <a onclick="showSection('contacto')">Contacto</a>
+    <a onclick="showSection('inicio')"><i class="fa fa-home"></i> Inicio</a>
+    <a onclick="showSection('ofertas')"><i class="fa fa-tags"></i> Ofertas</a>
+    <a onclick="showSection('contacto')"><i class="fa fa-address-book"></i> Contacto</a>
   </aside>
 
   <main class="main">
-    <div class="page-header"></div>
+    <div class="page-header">
+      <h1>🛒 Colmado Sinay</h1>
+      <p>Agrega productos con cantidad y envía tu pedido por WhatsApp</p>
+    </div>
 
     <section id="inicio" class="panel">
-      <div class="header" style="text-align:center;font-size:22px;font-weight:700;margin-bottom:6px;">🛒 Colmado Sinay</div>
-      <div class="subheader" style="text-align:center;color:#475569;margin-bottom:10px;">Agrega productos con cantidad y envía tu pedido por WhatsApp</div>
-
       <div class="input-section">
         <input type="text" id="productoInput" placeholder="Producto">
         <input type="number" id="cantidadInput" placeholder="Cantidad" min="1" value="1">
@@ -161,13 +164,13 @@ button {
     </section>
 
     <section id="ofertas" class="simple-panel" style="display:none;">
-      <h3 style="margin-bottom:8px;">Ofertas</h3>
-      <p class="muted">Aquí publicaremos las ofertas pronto.</p>
+      <h3>Ofertas</h3>
+      <p>Aquí publicaremos las ofertas pronto.</p>
     </section>
 
     <section id="contacto" class="simple-panel" style="display:none;">
-      <h3 style="margin-bottom:8px;">Contacto</h3>
-      <div style="display:flex;flex-direction:column;gap:6px;">
+      <h3>Contacto</h3>
+      <div style="display:flex;flex-direction:column;gap:8px;">
         <div><i class="fa fa-phone"></i> Teléfono: +1 849-623-9976</div>
         <div><i class="fa fa-map-marker-alt"></i> Dirección: La Quisqueya 2, República Dominicana</div>
         <div><i class="fa fa-store"></i> Colmado Sinay</div>
@@ -177,14 +180,12 @@ button {
 </div>
 
 <script>
-// Navegación de secciones
 function showSection(id){
   document.getElementById('inicio').style.display = (id==='inicio')?'block':'none';
   document.getElementById('ofertas').style.display = (id==='ofertas')?'block':'none';
   document.getElementById('contacto').style.display = (id==='contacto')?'block':'none';
 }
 
-// Lista de compras
 const productoInput = document.getElementById('productoInput');
 const cantidadInput = document.getElementById('cantidadInput');
 const listaContainer = document.getElementById('listaContainer');
