@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7190127665942352"
-     crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Colmado Sinay - Tienda Online</title>
@@ -122,30 +120,14 @@ button {
 /* Paneles simples para Ofertas / Contacto */
 .simple-panel { margin-top:12px; border-radius:12px; padding:14px; background:#fff; box-shadow:0 6px 16px rgba(2,6,23,0.04); }
 
-/* Anuncio inferior inline */
-#adFooterInline {
-  width:100%;
-  max-width:320px;
-  border-radius:10px;
-  overflow:hidden;
-  box-shadow:0 6px 18px rgba(2,6,23,0.08);
-  margin:20px auto 0 auto;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-#adFooterInline iframe { width:100% !important; height:250px !important; border:0 !important; }
-
 /* Responsivo */
 @media (max-width:768px) {
   .app { flex-direction:column; }
   .sidebar { width:100%; flex-direction:row; justify-content:space-around; padding:12px 6px; }
   .sidebar h2 { display:none; }
   .main { padding:18px; }
-  #adFooterInline { max-width:240px; }
 }
 @media (max-width:420px) {
-  #adFooterInline { max-width:200px; }
   .input-section { flex-direction:column; align-items:stretch; }
   #sendButton { width:100%; }
 }
@@ -161,8 +143,7 @@ button {
   </aside>
 
   <main class="main">
-    <div class="page-header">
-    </div>
+    <div class="page-header"></div>
 
     <section id="inicio" class="panel">
       <div class="header" style="text-align:center;font-size:22px;font-weight:700;margin-bottom:6px;">🛒 Colmado Sinay</div>
@@ -192,23 +173,6 @@ button {
         <div><i class="fa fa-store"></i> Colmado Sinay</div>
       </div>
     </section>
-
-    <!-- Anuncio inferior inline -->
-    <section>
-      <div id="adFooterInline">
-        <script type="text/javascript">
-          atOptions = {
-            'key' : 'df21b94321558c74f9d6d083d13c7e05',
-            'format' : 'iframe',
-            'height' : 250,
-            'width' : 300,
-            'params' : {}
-          };
-        </script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/df21b94321558c74f9d6d083d13c7e05/invoke.js"></script>
-      </div>
-    </section>
-
   </main>
 </div>
 
@@ -281,22 +245,6 @@ function escapeHtml(text){
   const map={'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'};
   return text.replace(/[&<>"']/g,m=>map[m]);
 }
-
-// Escalar anuncio inferior
-function scaleInlineAd(){
-  const container=document.getElementById('adFooterInline');
-  if(!container)return;
-  const iframe=container.querySelector('iframe');
-  if(!iframe)return;
-  const nominalW=300, nominalH=250;
-  const cw=container.clientWidth;
-  const scale=Math.min(1,cw/nominalW);
-  iframe.style.transform='scale('+scale+')';
-  iframe.style.transformOrigin='top left';
-  container.style.height=(nominalH*scale)+'px';
-}
-window.addEventListener('resize',scaleInlineAd);
-setTimeout(scaleInlineAd,500);
 </script>
 
 </body>
